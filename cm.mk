@@ -9,7 +9,7 @@ PRODUCT_RELEASE_NAME := MT1-U06
 $(call inherit-product, vendor/cm/config/common_full_phone.mk)
 
 # Inherit device configuration
-$(call inherit-product, device/huawei/hwmt1_u06/device_hwmt1_u06.mk)
+$(call inherit-product, device/huawei/hwmt1_u06/hwmt1_u06.mk)
 
 
 ## Device identifier. This must come after all inclusions

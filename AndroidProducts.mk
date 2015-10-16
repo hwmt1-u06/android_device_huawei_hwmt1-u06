@@ -1,2 +1,2 @@
 PRODUCT_MAKEFILES := \
-    $(LOCAL_DIR)/device_hwmt1_u06.mk
+    $(LOCAL_DIR)/hwmt1_u06.mk

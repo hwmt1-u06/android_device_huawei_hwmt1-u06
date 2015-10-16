@@ -13,7 +13,6 @@ ro.sf.lcd_density=240
 
 ro.config.pppoe_enable=1
 ro.config.KeyPassToUser=true
-ro.config.keypasstouser=true
 ro.config.enable.telecom_epush=false
 ro.hwcamera.startbypowervolume=false
 ro.hwcamera.fastcapture=false

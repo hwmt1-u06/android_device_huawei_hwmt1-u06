@@ -54,7 +54,8 @@ BOARD_HAVE_BLUETOOTH := true
 BOARD_HAVE_BLUETOOTH_TI := true
 BOARD_BLUETOOTH_BDROID_BUILDCFG_INCLUDE_DIR := device/huawei/hwmt1_u06/bluetooth
 
-TARGET_PREBUILT_KERNEL := device/huawei/hwmt1_u06/zImage
+
+TARGET_PREBUILT_KERNEL := device/huawei/hwmt1_u06/kernel
 #TARGET_KERNEL_SOURCE := kernel/huawei/hwmt1_u06
 #TARGET_KERNEL_CONFIG := hisi_k3v2oem1_defconfig
 
@@ -74,6 +75,7 @@ TARGET_PREBUILT_KERNEL := device/huawei/hwmt1_u06/zImage
 #	mv hardware/ti/wlan/mac80211/compat_wl18xx/drivers/net/wireless/ti/wlcore/wlcore_sdio.ko $(KERNEL_MODULES_OUT)
 #	
 #TARGET_KERNEL_MODULES := WLAN_MODULES
+
 
 BOARD_HAL_STATIC_LIBRARIES += libhealthd.k3v2oem1
 

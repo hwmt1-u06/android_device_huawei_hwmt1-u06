@@ -446,6 +446,18 @@ PRODUCT_COPY_FILES += \
     $(LOCAL_PATH)/prebuilt/etc/firmware/fm_rx_ch8_1893.3.bts:system/etc/firmware/fm_rx_ch8_1893.3.bts \
     $(LOCAL_PATH)/prebuilt/etc/firmware/TIInit_12.8.32.bts:system/etc/firmware/TIInit_12.8.32.bts
 
+# Prebuilt kernel modules
+PRODUCT_COPY_FILES += \
+    $(LOCAL_PATH)/prebuilt/lib/modules/cfg80211.ko:system/lib/modules/cfg80211.ko \
+    $(LOCAL_PATH)/prebuilt/lib/modules/compat.ko:system/lib/modules/compat.ko \
+    $(LOCAL_PATH)/prebuilt/lib/modules/mac80211.ko:system/lib/modules/mac80211.ko \
+    $(LOCAL_PATH)/prebuilt/lib/modules/sch_codel.ko:system/lib/modules/sch_codel.ko \
+    $(LOCAL_PATH)/prebuilt/lib/modules/sch_fq_codel.ko:system/lib/modules/sch_fq_codel.ko \
+    $(LOCAL_PATH)/prebuilt/lib/modules/wl18xx.ko:system/lib/modules/wl18xx.ko \
+    $(LOCAL_PATH)/prebuilt/lib/modules/wlcore.ko:system/lib/modules/wlcore.ko \
+    $(LOCAL_PATH)/prebuilt/lib/modules/wlcore_sdio.ko:system/lib/modules/wlcore_sdio.ko \
+    $(LOCAL_PATH)/prebuilt/lib/modules/wlcore_spi.ko:system/lib/modules/wlcore_spi.ko
+
 # This device have enough room for precise davick
 PRODUCT_TAGS += dalvik.gc.type-precise
 
