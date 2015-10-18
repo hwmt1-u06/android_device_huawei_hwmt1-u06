@@ -35,7 +35,9 @@ import com.android.internal.telephony.RILConstants;
 import com.android.internal.telephony.gsm.SmsBroadcastConfigInfo;
 import com.android.internal.telephony.cdma.CdmaInformationRecords;
 
+
 import java.util.ArrayList;
+
 
 public class AscendMateRIL extends RIL implements CommandsInterface {
     boolean RILJ_LOGV = true;
@@ -63,11 +65,8 @@ public class AscendMateRIL extends RIL implements CommandsInterface {
 				
         /* RIL_RadioState ril.h */
         switch(stateInt) {
-            case 0: 
-		state = CommandsInterface.RadioState.RADIO_OFF;
-		break;
-            case 1: state = CommandsInterface.RadioState.RADIO_UNAVAILABLE;
-		break;
+            case 0: state = RadioState.RADIO_OFF;break;
+            case 1: state = RadioState.RADIO_UNAVAILABLE; break;
             case 2:
             case 3:
             case 4:
@@ -76,11 +75,10 @@ public class AscendMateRIL extends RIL implements CommandsInterface {
             case 7:
             case 8:
             case 9:
-	    case 10: 
-		state = CommandsInterface.RadioState.RADIO_ON;
-		break;
+	    case 10: state = RadioState.RADIO_ON;break;
             default:
-                throw new RuntimeException("Unrecognized RIL_RadioState: " + stateInt);
+                throw new RuntimeException(
+                            "Unrecognized RIL_RadioState: " + stateInt);
         }
         return state;
     }
@@ -149,17 +147,17 @@ public class AscendMateRIL extends RIL implements CommandsInterface {
                   case 13:
                      ret = responseVoid(p);
                      break ;
-                  case 14:
-                if ((mTestingEmergencyCall.getAndSet(false)) && (mEmergencyCallbackModeRegistrant != null)) {
+                  case 14: {
+                if (mTestingEmergencyCall.getAndSet(false)) {
+                    if (mEmergencyCallbackModeRegistrant != null) {
                         riljLog("testing emergency call, notify ECM Registrants");
                         mEmergencyCallbackModeRegistrant.notifyRegistrant();
                     }
-                     ret = responseVoid(p);
-                     break ;
+                }
+                ret =  responseVoid(p);
+                break;
+            }
                   case 15:
-                     ret = responseVoid(p);
-                     break ;
-                  case 539:
                      ret = responseVoid(p);
                      break ;
                   case 16:
@@ -192,24 +190,6 @@ public class AscendMateRIL extends RIL implements CommandsInterface {
                   case 25:
                      ret = responseSMS(p);
                      break ;
-                  case 513:
-                     ret = responseStrings(p);
-                     break ;
-                  case 515:
-                     ret = responseStrings(p);
-                     break ;
-                  case 514:
-                     ret = responseStrings(p);
-                     break ;
-                  case 516:
-                     ret = responseStrings(p);
-                     break ;
-                  case 517:
-                     ret = responseStrings(p);
-                     break ;
-                  case 518:
-                     ret = responseStrings(p);
-                     break ;
                   case 26:
                      ret = responseSMS(p);
                      break ;
@@ -218,21 +198,6 @@ public class AscendMateRIL extends RIL implements CommandsInterface {
                      break ;
                   case 28:
                      ret = responseICC_IO(p);
-                     break ;
-                  case 523:
-                     ret = responseICC_IO(p);
-                     break ;
-                  case 524:
-                     ret = responseInts(p);
-                     break ;
-                  case 525:
-                     ret = responseVoid(p);
-                     break ;
-                  case 526:
-                     ret = responseICC_IO(p);
-                     break ;
-                  case 538:
-                     ret = responseString(p);
                      break ;
                   case 29:
                      ret = responseVoid(p);
@@ -247,7 +212,7 @@ public class AscendMateRIL extends RIL implements CommandsInterface {
                      ret = responseVoid(p);
                      break ;
                   case 33:
-                     ret = responseCallForward(p);//ok
+                     ret = responseCallForward(p);
                      break ;
                   case 34:
                      ret = responseVoid(p);
@@ -292,7 +257,7 @@ public class AscendMateRIL extends RIL implements CommandsInterface {
                      ret = responseVoid(p);
                      break ;
                   case 48:
-                     ret = responseOperatorInfos(p); //ok
+                     ret = responseOperatorInfos(p);
                      break ;
                   case 49:
                      ret = responseVoid(p);
@@ -319,7 +284,7 @@ public class AscendMateRIL extends RIL implements CommandsInterface {
                      ret = responseInts(p);
                      break ;
                   case 57:
-                     ret = responseDataCallList(p); //ok
+                     ret = responseDataCallList(p);
                      break ;
                   case 58:
                      ret = responseVoid(p);
@@ -370,7 +335,7 @@ public class AscendMateRIL extends RIL implements CommandsInterface {
                      ret = responseVoid(p);
                      break ;
                   case 74:
-                     ret = responseGetPreferredNetworkType(p); //ok
+                     ret = responseGetPreferredNetworkType(p);
                      break ;
                   case 75:
                      ret = responseCellList(p);
@@ -405,6 +370,9 @@ public class AscendMateRIL extends RIL implements CommandsInterface {
                   case 85:
                      ret = responseVoid(p);
                      break ;
+                  case 86:
+                     ret = responseVoid(p);
+                     break ;
                   case 87:
                      ret = responseSMS(p);
                      break ;
@@ -412,21 +380,18 @@ public class AscendMateRIL extends RIL implements CommandsInterface {
                      ret = responseVoid(p);
                      break ;
                   case 89:
-                     ret = responseGmsBroadcastConfig(p); //ok
+                     ret = responseGmsBroadcastConfig(p);
                      break ;
                   case 90:
                      ret = responseVoid(p);
                      break ;
-                  case 92:
-                     ret = responseVoid(p);
-                     break ;
-                  case 93:
-                     ret = responseCdmaBroadcastConfig(p);
-                     break ;
                   case 91:
                      ret = responseVoid(p);
                      break ;
-                  case 86:
+                  case 92:
+                     ret = responseCdmaBroadcastConfig(p);
+                     break ;
+                  case 93:
                      ret = responseVoid(p);
                      break ;
                   case 94:
@@ -444,13 +409,13 @@ public class AscendMateRIL extends RIL implements CommandsInterface {
                   case 98:
                      ret = responseStrings(p);
                      break ;
+                  case 99:
+                     ret = responseVoid(p);
+                     break ;
                   case 100:
                      ret = responseString(p);
                      break ;
                   case 101:
-                     ret = responseVoid(p);
-                     break ;
-                  case 99:
                      ret = responseVoid(p);
                      break ;
                   case 102:
@@ -465,26 +430,32 @@ public class AscendMateRIL extends RIL implements CommandsInterface {
                   case 105:
                      ret = responseString(p);
                      break ;
+                  case 106:
+                     ret = responseVoid(p);
+                     break ;
+                  case 107:
+                     ret = responseICC_IO(p);
+                     break ;
                   case 108:
                      ret = responseInts(p);
                      break ;
-                  case 109:
-                     ret = responseCellInfoList(p);//ok
-                     break ;
-                  case 110:
+                  case 501:
                      ret = responseVoid(p);
                      break ;
-                  case 111:
+                  case 502:
                      ret = responseVoid(p);
                      break ;
-                  case 112:
+                  case 503:
+                     ret = responseVoid(p);
+                     break ;
+                  case 504:
                      ret = responseInts(p);
                      break ;
-                  case 113:
+                  case 505:
                      ret = responseSMS(p);
                      break ;
-                  case 512:
-                     ret = responseVoid(p);
+                  case 506:
+                     ret = responseInts(p);//responseGetDataCallProfile(p);
                      break ;
                   case 507:
                      ret = responseVoid(p);
@@ -493,7 +464,7 @@ public class AscendMateRIL extends RIL implements CommandsInterface {
                      ret = responseVoid(p);
                      break ;
                   case 509:
-                     ret = responseUiccSubscription(p);//ok
+                     ret = responseUiccSubscription(p);
                      break ;
                   case 510:
                      ret = responseInts(p);
@@ -501,20 +472,26 @@ public class AscendMateRIL extends RIL implements CommandsInterface {
                   case 511:
                      ret = responseVoid(p);
                      break ;
-                  case 106:
+                  case 512:
                      ret = responseVoid(p);
                      break ;
-                  case 107:
-                     ret = responseICC_IO(p);
+                  case 513:
+                     ret = responseStrings(p);
                      break ;
-                  case 503:
-                     ret = responseVoid(p);
+                  case 514:
+                     ret = responseStrings(p);
                      break ;
-                  case 501:
-                     ret = responseVoid(p);
+                  case 515:
+                     ret = responseStrings(p);
                      break ;
-                  case 502:
-                     ret = responseVoid(p);
+                  case 516:
+                     ret = responseStrings(p);
+                     break ;
+                  case 517:
+                     ret = responseStrings(p);
+                     break ;
+                  case 518:
+                     ret = responseStrings(p);
                      break ;
                   case 519:
                      ret = responseVoid(p);
@@ -528,23 +505,28 @@ public class AscendMateRIL extends RIL implements CommandsInterface {
                   case 522:
                      ret = responseVoid(p);
                      break ;
+                  case 523:
+                     ret = responseICC_IO(p);
+                     break ;
+                  case 524:
+                     ret = responseInts(p);
+                     break ;
+                  case 525:
+                     ret = responseVoid(p);
+                     break ;
+                  case 526:
+                     ret = responseICC_IO(p);
+                     break ;
                   case 534:
                      ret = responseVoid(p);
                      break ;
-                  case 536:
+                  case 535:
                      ret = responseVoid(p);
-                     break ;
-                  case 537:
-                     ret = responseVoid(p);
-                     break ;
-                  case 540:
-                     ret = responseVoid(p);
-                     break ;
+                     break;
             default:
                 throw new RuntimeException("Unrecognized solicited response: " + rr.mRequest);
             //break;
- 	           }
-	   } catch (Throwable tr) {
+            }} catch (Throwable tr) {
                 // Exceptions here usually mean invalid RIL responses
 
                 Log.w(LOG_TAG, rr.serialString() + "< "
@@ -555,6 +537,7 @@ public class AscendMateRIL extends RIL implements CommandsInterface {
                     AsyncResult.forMessage(rr.mResult, null, tr);
                     rr.mResult.sendToTarget();
                 }
+                
                 return rr;
             }
         }
@@ -584,6 +567,7 @@ public class AscendMateRIL extends RIL implements CommandsInterface {
                   }
                default:
                   rr.onError(error, ret);
+                  
                }
             } else {
                riljLog(rr.serialString() + "< " + requestToString(rr.mRequest) + " " + retToString(rr.mRequest, ret));
@@ -591,105 +575,49 @@ public class AscendMateRIL extends RIL implements CommandsInterface {
                   AsyncResult.forMessage(rr.mResult, ret, (Throwable)null);
                   rr.mResult.sendToTarget();
                }
-             }       
-           }
-	  return rr;
+            }       
         }
-
+        return rr;
+    }
+	
     @Override
     protected void
     processUnsolicited (Parcel p) {
-      Object ret;
+        Object ret;
         int dataPosition = p.dataPosition(); // save off position within the Parcel
         int response = p.readInt();
 
-      switch(response) {
-	
-      case RIL_UNSOL_SIGNAL_STRENGTH: 
-	 ret = responseSignalStrength(p); break;
-
-      case 1010:
-         ret = responseSuppServiceNotification(p); break;
-      case 1011:
-         ret = responseVoid(p); break;
-      case 1012:
-         ret = responseString(p); break;
-      case 1013:
-         ret = responseString(p); break;
-      case 1014:
-         ret = responseInts(p); break;
-      case 1015:
-         ret = responseVoid(p); break;
-      case 1016:
-         ret = responseSimRefresh(p); break;
-      case 1017:
-         ret = responseCallRing(p); break;
-      case 1018:
-         ret = responseString(p); break;
-      case 1019:
-         ret = responseInts(p); break;
-      case 1020:
-         ret = responseVoid(p); break;
-      case 1021:
-         ret = responseCdmaSms(p); break;
-      case 1022:
-         ret = responseRaw(p); break;
-      case 1023:
-         ret = responseVoid(p); break;
-      case 1024:
-         ret = responseVoid(p); break;
-      case 1025:
-         ret = responseCdmaCallWaiting(p); break;
-      case 1026:
-         ret = responseInts(p); break;
-      case 1027:
-         ret = responseCdmaInformationRecord(p); break;
-      case 1028:
-         ret = responseRaw(p); break;
-      case 1029:
-         ret = responseInts(p); break;
-      case 1030:
-         ret = responseVoid(p); break;
-      case 1031:
-         ret = responseInts(p); break;
-      case 1032:
-         ret = responseInts(p); break;
-      case 1033:
-         ret = responseVoid(p); break;
-      case 1510:
-         ret = responseInts(p); break;
-      case 1034:
-         ret = responseString(p); break;
-      case 1501:
-         ret = responseInts(p); break;
-      case 1035:
-         ret = responseCellInfoList(p); break;
-      case 1036:
-         ret = responseVoid(p); break;
-      case 1505:
-         ret = responseInts(p); break;
-      case 1504:
-         ret = responseString(p); break;
-      case 1506:
-         ret = responseInts(p); break;
-      case 1507:
-         ret = responseStrings(p); break;
-      case 1508:
-         ret = responseInts(p); break;
-      case 1502:
-         ret = responseInts(p); break;
-      case 1511:
-         ret = responseInts(p); break;
-      case 1517:
-         ret = responseVoid(p); break;
-      case 1516:
-         ret = responseVoid(p); break;
-      case 1512:
-         ret = responseVoid(p); break;
-      case 1513:
-         ret = responseStrings(p); break;
-
-      default:
+        switch(response) {
+	  case RIL_UNSOL_SIGNAL_STRENGTH: ret = responseSignalStrength(p); break;
+	  case 1501:
+          ret = responseInts(p); break; // "UNSOL_RESIDENT_NETWORK_CHANGED";
+        case 1502:
+          ret = responseInts(p); break; // "UNSOL_RESPONSE_SIM_TYPE";
+        case 1503:
+          ret = responseInts(p); break; // "UNSOL_RESPONSE_IMS_NETWORK_STATE_CHANGED";
+        case 1504:
+          ret = responseInts(p); break; // "RIL_UNSOL_TETHERED_MODE_STATE_CHANGED";
+        case 1505:
+          ret = responseInts(p); break; // "RIL_UNSOL_DATA_NETWORK_STATE_CHANGED";
+        case 1506:
+          ret = responseInts(p); break; // "UNSOL_ON_SS";
+        case 1507:
+          ret = responseInts(p); break; // "UNSOL_STK_CC_ALPHA_NOTIFY";
+        case 1508:
+          ret = responseInts(p); break; // "RIL_UNSOL_UICC_SUBSCRIPTION_STATUS_CHANGED";
+        case 1509:
+          ret = responseInts(p); break; // "RIL_UNSOL_QOS_STATE_CHANGED";
+        case 1510:
+          ret = responseInts(p); break; // "UNSOL_MODIFY_CALL";
+        case 1511:
+          ret = responseInts(p); break; // "UNSOL_DIALUP_STATE_CHANGED";
+        case 1512:
+          ret = responseInts(p); break; // "RIL_UNSOL_CURR_MCC";
+        case 1513:
+          ret = responseInts(p); break; // "RIL_UNSOL_CURR_GSM_STATE";
+        case 1515:
+          ret = responseInts(p); break; // "RIL_UNSOL_ADJUST_PROP_MTKSLOTID";
+        default:
                 // Rewind the Parcel
                 p.setDataPosition(dataPosition);
 
@@ -710,22 +638,24 @@ public class AscendMateRIL extends RIL implements CommandsInterface {
                 }
             break;
             case 1502:
-		setPreferredNetworkType(mPreferredNetworkType, null);
+				setPreferredNetworkType(mPreferredNetworkType, null);
                 setCdmaSubscriptionSource(mCdmaSubscription, null);
-
+                //notifyRegistrantsRilConnectionChanged(((int[])ret)[0]);
                 break;
             case 1501:
+            case 1503:
             case 1504:
             case 1505:
             case 1506:
             case 1507:
             case 1508:
+            case 1509:
             case 1510:
             case 1511:
             case 1512:
             case 1513:
-            case 1516:
-            case 1517:
+            case 1514:
+            case 1515:
                 break;
             }
     }
@@ -761,6 +691,7 @@ public class AscendMateRIL extends RIL implements CommandsInterface {
 	  
       return new SignalStrength(response[0], response[1], response[2], response[3], response[4], response[5], response[6], response[7],response[8], response[9], response[10], response[11], true);
    }
+
   
     private Object responseUiccSubscription(Parcel p) {
       return null;

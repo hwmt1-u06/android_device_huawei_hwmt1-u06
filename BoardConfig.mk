@@ -24,17 +24,24 @@ TARGET_ARCH_VARIANT_FPU := neon
 TARGET_BOOTLOADER_BOARD_NAME := hwmt1_u06
 TARGET_BOARD_PLATFORM := k3v2oem1
 
-# Local flag
-BOARD_USE_K3V2OEM1 := true
+TARGET_PROVIDES_AUDIO_EFFECTS := true
+
 
 # Webkit
 ENABLE_WEBGL := true
 TARGET_FORCE_CPU_UPLOAD := true
 
+### FM radio
+BOARD_HAVE_FM_RADIO := true
+BOARD_GLOBAL_CFLAGS += -DHAVE_FM_RADIO
+
+# Local flag
+BOARD_USE_K3V2OEM1 := true
+
 # Wifi
 USES_TI_MAC80211 := true
 ifdef USES_TI_MAC80211
-WPA_SUPPLICANT_VERSION           := VER_0_8_X_TI
+WPA_SUPPLICANT_VERSION           := VER_0_8_X
 BOARD_WPA_SUPPLICANT_DRIVER      := NL80211
 BOARD_WPA_SUPPLICANT_PRIVATE_LIB := lib_driver_cmd_wl12xx
 BOARD_HOSTAPD_DRIVER             := NL80211
@@ -53,7 +60,6 @@ endif
 BOARD_HAVE_BLUETOOTH := true
 BOARD_HAVE_BLUETOOTH_TI := true
 BOARD_BLUETOOTH_BDROID_BUILDCFG_INCLUDE_DIR := device/huawei/hwmt1_u06/bluetooth
-
 
 TARGET_PREBUILT_KERNEL := device/huawei/hwmt1_u06/kernel
 #TARGET_KERNEL_SOURCE := kernel/huawei/hwmt1_u06
@@ -76,7 +82,6 @@ TARGET_PREBUILT_KERNEL := device/huawei/hwmt1_u06/kernel
 #	
 #TARGET_KERNEL_MODULES := WLAN_MODULES
 
-
 BOARD_HAL_STATIC_LIBRARIES += libhealthd.k3v2oem1
 
 # adb has root
@@ -88,6 +93,9 @@ ADDITIONAL_DEFAULT_PROPERTIES += persist.sys.usb.config=mass_storage
 BOARD_EGL_CFG := device/huawei/hwmt1_u06/prebuilt/lib/egl/egl.cfg
 USE_OPENGL_RENDERER := true
 COMMON_GLOBAL_CFLAGS += -DFORCE_SCREENSHOT_CPU_PATH
+
+# Hardware
+BOARD_HARDWARE_CLASS := device/huawei/hwmt1_u06/cmhw
 
 # Camera
 BOARD_CAMERA_HAVE_ISO := true
@@ -137,7 +145,7 @@ BOARD_USE_CUSTOM_RECOVERY_FONT := \"roboto_15x24.h\"
 
 BOARD_RECOVERY_SWIPE := true
 
-TARGET_PREBUILT_RECOVERY_KERNEL := device/huawei/hwmt1_u06/zImage
+TARGET_PREBUILT_RECOVERY_KERNEL := device/huawei/hwmt1_u06/recovery-kernel
 TARGET_RECOVERY_INITRC := device/huawei/hwmt1_u06/recovery/init.rc
 
 #TWRP
@@ -149,7 +157,7 @@ RECOVERY_GRAPHICS_USE_LINELENGTH := true
 
 TW_CUSTOM_BATTERY_PATH := "/sys/devices/platform/bq_bci_battery.1/power_supply/Battery"
 
-RECOVERY_SDCARD_ON_DATA := true 
+RECOVERY_SDCARD_ON_DATA := true
 TW_FLASH_FROM_STORAGE := true
 TW_EXTERNAL_STORAGE_PATH := "/external_sd"
 TW_EXTERNAL_STORAGE_MOUNT_POINT := "external_sd"

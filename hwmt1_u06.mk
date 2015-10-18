@@ -1,15 +1,20 @@
 # The gps config appropriate for this device
-#$(call inherit-product, device/common/gps/gps_us_supl.mk)
-
 $(call inherit-product, $(SRC_TARGET_DIR)/product/full_base_telephony.mk)
-
 $(call inherit-product, $(SRC_TARGET_DIR)/product/languages_full.mk)
-
 $(call inherit-product-if-exists, vendor/huawei/hwmt1_u06/hwmt1_u06-vendor.mk)
 
 LOCAL_PATH := device/huawei/hwmt1_u06
 
 DEVICE_PACKAGE_OVERLAYS += $(LOCAL_PATH)/overlay
+
+ifeq ($(TARGET_PREBUILT_KERNEL),)
+	LOCAL_KERNEL := $(LOCAL_PATH)/kernel
+else
+	LOCAL_KERNEL := $(TARGET_PREBUILT_KERNEL)
+endif
+
+PRODUCT_COPY_FILES += \
+    $(LOCAL_KERNEL):kernel
 
 PRODUCT_COPY_FILES += \
     $(LOCAL_PATH)/recovery/fstab.k3v2oem1:root/fstab.k3v2oem1 \
@@ -446,24 +451,14 @@ PRODUCT_COPY_FILES += \
     $(LOCAL_PATH)/prebuilt/etc/firmware/fm_rx_ch8_1893.3.bts:system/etc/firmware/fm_rx_ch8_1893.3.bts \
     $(LOCAL_PATH)/prebuilt/etc/firmware/TIInit_12.8.32.bts:system/etc/firmware/TIInit_12.8.32.bts
 
-# Prebuilt kernel modules
-PRODUCT_COPY_FILES += \
-    $(LOCAL_PATH)/prebuilt/lib/modules/cfg80211.ko:system/lib/modules/cfg80211.ko \
-    $(LOCAL_PATH)/prebuilt/lib/modules/compat.ko:system/lib/modules/compat.ko \
-    $(LOCAL_PATH)/prebuilt/lib/modules/mac80211.ko:system/lib/modules/mac80211.ko \
-    $(LOCAL_PATH)/prebuilt/lib/modules/sch_codel.ko:system/lib/modules/sch_codel.ko \
-    $(LOCAL_PATH)/prebuilt/lib/modules/sch_fq_codel.ko:system/lib/modules/sch_fq_codel.ko \
-    $(LOCAL_PATH)/prebuilt/lib/modules/wl18xx.ko:system/lib/modules/wl18xx.ko \
-    $(LOCAL_PATH)/prebuilt/lib/modules/wlcore.ko:system/lib/modules/wlcore.ko \
-    $(LOCAL_PATH)/prebuilt/lib/modules/wlcore_sdio.ko:system/lib/modules/wlcore_sdio.ko \
-    $(LOCAL_PATH)/prebuilt/lib/modules/wlcore_spi.ko:system/lib/modules/wlcore_spi.ko
-
 # This device have enough room for precise davick
 PRODUCT_TAGS += dalvik.gc.type-precise
 
 # Device uses ultra-high-density artwork where available
 PRODUCT_AAPT_CONFIG := hdpi xhdpi xxhdpi
 PRODUCT_AAPT_PREF_CONFIG := xhdpi
+
+PRODUCT_LOCALES += en_US
 
 # Prime spacific overrides
 PRODUCT_PROPERTY_OVERRIDES += \
@@ -508,16 +503,16 @@ PRODUCT_PACKAGES += \
     VisualizationWallpapers
 
 PRODUCT_PACKAGES += \
+    Torch \
+    SOP
+
+PRODUCT_PACKAGES += \
     libc2dcolorconvert \
     libdashplayer
 
 # Enable switch storage
 PRODUCT_COPY_FILES += \
     $(LOCAL_PATH)/prebuilt/etc/init.d/preparesd:/system/etc/init.d/preparesd
-
-PRODUCT_PACKAGES += \
-    Torch \
-    SOP
 
 # Bluetooth
 PRODUCT_PACKAGES += \
@@ -532,7 +527,7 @@ PRODUCT_PACKAGES += \
 # General
 PRODUCT_PROPERTY_OVERRIDES += \
     ro.build.selinux=0
-
+    
 PRODUCT_PROPERTY_OVERRIDES += \
     media.stagefright.enable-player=true \
     media.stagefright.enable-meta=true \

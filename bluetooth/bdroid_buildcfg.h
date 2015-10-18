@@ -17,7 +17,7 @@
 #ifndef _BDROID_BUILDCFG_H
 #define _BDROID_BUILDCFG_H
 
-#define BTM_DEF_LOCAL_NAME   "Ascend Mate"
+#define BTM_DEF_LOCAL_NAME   "MT1-U06"
 
 #define BLE_INCLUDED TRUE
 

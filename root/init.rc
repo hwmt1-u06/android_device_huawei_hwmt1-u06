@@ -814,8 +814,8 @@ on boot
     setprop net.tcp.buffersize.evdo    4094,87380,262144,4096,16384,262144
     setprop net.tcp.buffersize.evdo_b  4096,87380,704512,4096,16384,262144
 
-    setprop ro.sf.lcd_density 320
-    setprop hw.lcd.density 320
+    setprop ro.sf.lcd_density 240
+    setprop hw.lcd.density 240
 
     setprop ro.config.compatibility_enable 1
 
@@ -1106,11 +1106,6 @@ service hw_modem_service /system/bin/hw_modem_service /dev/ttyGS0 /dev/mux_qsc6
     user root
     disabled
    
-service k3v2_thermal /system/bin/k3v2_thermal
-    class main
-    user system
-    oneshot
-
 service hwnffserver /system/bin/hwnffserver
     class main
     socket hwnff stream 0660 root mount
