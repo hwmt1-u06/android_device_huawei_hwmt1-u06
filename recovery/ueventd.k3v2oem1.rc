@@ -7,12 +7,12 @@
 
 # for Radio
 
-/dev/ttyUSB1              0777   root       root
-/dev/ttyUSB0              0777   root       root
-/dev/ttyACM0              0777   root       root
-/dev/ttyACM1              0777   root       root
-/dev/ttyACM2              0777   root       root
-/dev/ttyACM3              0777   root       root
+/dev/ttyUSB1              0660   radio       radio
+/dev/ttyUSB0              0660   radio       radio
+/dev/ttyACM0              0770   root       radio
+/dev/ttyACM1              0770   root       radio
+/dev/ttyACM2              0770   root       radio
+/dev/ttyACM3              0770   root       radio
 
 #DTS2012010701178    huohua   2012/01/07  modify for dynamic gamma begin
 # for LCD_tuning

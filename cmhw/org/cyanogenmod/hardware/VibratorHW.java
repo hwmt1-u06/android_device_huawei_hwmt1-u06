@@ -16,49 +16,39 @@
 
 package org.cyanogenmod.hardware;
 
+import java.io.File;
 import org.cyanogenmod.hardware.util.FileUtils;
 
 public class VibratorHW {
 
     private static String ENB_PATH = "/sys/devices/virtual/timed_output/vibrator/enable";
-    private static boolean mEnabled = true;
 
     public static boolean isSupported() {
-        return true;
+        File f = new File(ENB_PATH);
+        return f.exists();
     }
-
-    public static boolean isEnabled() {
-        return mEnabled;
-    }
-
-    public static boolean setEnabled(boolean status) {
-        mEnabled = status;
-        return FileUtils.writeLine(ENB_PATH, status ? "1" : "0");
-    }
-
 
     public static boolean setIntensity(int intensity)  {
-        throw new UnsupportedOperationException();
+        return FileUtils.writeLine(ENB_PATH, String.valueOf(intensity));
+    }
+
+    public static int getCurIntensity()  {
+        return Integer.parseInt(FileUtils.readOneLine(ENB_PATH));
     }
 
     public static int getMaxIntensity()  {
-        return -1;
-	}
+        return 100;
+    }
 
     public static int getMinIntensity()  {
-        return -1;
-	}
+        return 0;
+    }
 
     public static int getWarningThreshold()  {
-        return -1;
-	}
-
-    public static int getCurIntensity()  {
-        return -1;
-	}
+        return 75;
+    }
 
     public static int getDefaultIntensity()  {
-        return -1;
-	}
-
+        return 5;
+    }
 }

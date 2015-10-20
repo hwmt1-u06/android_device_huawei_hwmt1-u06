@@ -24,9 +24,6 @@ TARGET_ARCH_VARIANT_FPU := neon
 TARGET_BOOTLOADER_BOARD_NAME := hwmt1_u06
 TARGET_BOARD_PLATFORM := k3v2oem1
 
-TARGET_PROVIDES_AUDIO_EFFECTS := true
-
-
 # Webkit
 ENABLE_WEBGL := true
 TARGET_FORCE_CPU_UPLOAD := true
@@ -84,10 +81,14 @@ TARGET_PREBUILT_KERNEL := device/huawei/hwmt1_u06/kernel
 
 BOARD_HAL_STATIC_LIBRARIES += libhealthd.k3v2oem1
 
-# adb has root
-ADDITIONAL_DEFAULT_PROPERTIES += ro.secure=0
-ADDITIONAL_DEFAULT_PROPERTIES += ro.allow.mock.location=1
-ADDITIONAL_DEFAULT_PROPERTIES += persist.sys.usb.config=mass_storage
+ADDITIONAL_DEFAULT_PROPERTIES += \
+    ro.secure=0 \
+    ro.allow.mock.location=1 \
+    persist.sys.usb.config=mass_storage,adb \
+    ro.adb.secure=0 \
+    persist.rilrecovery.qsc6085.en=true \
+    ro.confg.hw_bootversion=MT1-U06V100R001CHNC00B331_BOOT \
+    ro.debuggable=1
 
 # Graphics
 BOARD_EGL_CFG := device/huawei/hwmt1_u06/prebuilt/lib/egl/egl.cfg

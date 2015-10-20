@@ -7,14 +7,7 @@ LOCAL_PATH := device/huawei/hwmt1_u06
 
 DEVICE_PACKAGE_OVERLAYS += $(LOCAL_PATH)/overlay
 
-ifeq ($(TARGET_PREBUILT_KERNEL),)
-	LOCAL_KERNEL := $(LOCAL_PATH)/kernel
-else
-	LOCAL_KERNEL := $(TARGET_PREBUILT_KERNEL)
-endif
-
-PRODUCT_COPY_FILES += \
-    $(LOCAL_KERNEL):kernel
+### RAMDISK
 
 PRODUCT_COPY_FILES += \
     $(LOCAL_PATH)/recovery/fstab.k3v2oem1:root/fstab.k3v2oem1 \
@@ -30,6 +23,8 @@ PRODUCT_COPY_FILES += \
     $(LOCAL_PATH)/recovery/sbin/6085downloader:root/sbin/6085downloader \
     $(LOCAL_PATH)/recovery/sbin/mtk_update:root/sbin/mtk_update \
     $(LOCAL_PATH)/recovery/sbin/updatemodem:root/sbin/updatemodem
+
+### RECOVERY
 
 PRODUCT_COPY_FILES += \
     $(LOCAL_PATH)/recovery/postrecoveryboot.sh:recovery/root/sbin/postrecoveryboot.sh \
@@ -70,6 +65,8 @@ PRODUCT_COPY_FILES += \
     $(LOCAL_PATH)/recovery/res/images/720x1280/percent_5.png:recovery/root/res/images/720x1280/percent_5.png \
     $(LOCAL_PATH)/recovery/res/images/720x1280/percent_10.png:recovery/root/res/images/720x1280/percent_10.png \
     $(LOCAL_PATH)/recovery/res/images/720x1280/percent_sign.png:recovery/root/res/images/720x1280/percent_sign.png
+
+### SYSTEM
 
 PRODUCT_COPY_FILES += \
     frameworks/native/data/etc/android.hardware.bluetooth_le.xml:system/etc/permissions/android.hardware.bluetooth_le.xml \
@@ -116,8 +113,7 @@ PRODUCT_COPY_FILES += \
     $(LOCAL_PATH)/prebuilt/etc/media_codecs.xml:system/etc/media_codecs.xml \
     $(LOCAL_PATH)/prebuilt/etc/media_profiles.xml:system/etc/media_profiles.xml \
     $(LOCAL_PATH)/prebuilt/etc/ril_balong_radio.cfg:/system/etc/ril_balong_radio.cfg \
-    $(LOCAL_PATH)/prebuilt/etc/ril_xgold_radio.cfg:/system/etc/ril_xgold_radio.cfg \
-    $(LOCAL_PATH)/prebuilt/etc/vold.fstab:system/etc/vold.fstab
+    $(LOCAL_PATH)/prebuilt/etc/ril_xgold_radio.cfg:/system/etc/ril_xgold_radio.cfg
 
 PRODUCT_COPY_FILES += \
     $(LOCAL_PATH)/prebuilt/usr/idc/hisik3_touchscreen.idc:system/usr/idc/hisik3_touchscreen.idc \
@@ -157,33 +153,6 @@ PRODUCT_COPY_FILES += \
     $(LOCAL_PATH)/prebuilt/etc/audio/audioloop/audioloop_TEDGE_default_NDL.dat:system/etc/audio/audioloop/audioloop_TEDGE_default_NDL.dat \
     $(LOCAL_PATH)/prebuilt/etc/audio/audioloop/audioloop_U9701G_default_NSL.dat:system/etc/audio/audioloop/audioloop_U9701G_default_NSL.dat \
     $(LOCAL_PATH)/prebuilt/etc/audio/audioloop/audioloop_UEDGE_default_NDL.dat:system/etc/audio/audioloop/audioloop_UEDGE_default_NDL.dat \
-    $(LOCAL_PATH)/prebuilt/etc/audio/codec/asound_C9800D_ce_ADL.dat:system/etc/audio/codec/asound_C9800D_ce_ADL.dat \
-    $(LOCAL_PATH)/prebuilt/etc/audio/codec/asound_C9800D_default_ADL.dat:system/etc/audio/codec/asound_C9800D_default_ADL.dat \
-    $(LOCAL_PATH)/prebuilt/etc/audio/codec/asound_CEDGE_ce_ADL.dat:system/etc/audio/codec/asound_CEDGE_ce_ADL.dat \
-    $(LOCAL_PATH)/prebuilt/etc/audio/codec/asound_CEDGE_default_ADL.dat:system/etc/audio/codec/asound_CEDGE_default_ADL.dat \
-    $(LOCAL_PATH)/prebuilt/etc/audio/codec/asound_default_ADL.dat:system/etc/audio/codec/asound_default_ADL.dat \
-    $(LOCAL_PATH)/prebuilt/etc/audio/codec/asound_k3v2oem1_default_ADL.dat:system/etc/audio/codec/asound_k3v2oem1_default_ADL.dat \
-    $(LOCAL_PATH)/prebuilt/etc/audio/codec/asound_T9800L_ce_ADL.dat:system/etc/audio/codec/asound_T9800L_ce_ADL.dat \
-    $(LOCAL_PATH)/prebuilt/etc/audio/codec/asound_T9800L_default_ADL.dat:system/etc/audio/codec/asound_T9800L_default_ADL.dat \
-    $(LOCAL_PATH)/prebuilt/etc/audio/codec/asound_T9900_ce_ADL.dat:system/etc/audio/codec/asound_T9900_ce_ADL.dat \
-    $(LOCAL_PATH)/prebuilt/etc/audio/codec/asound_T9900_default_ADL.dat:system/etc/audio/codec/asound_T9900_default_ADL.dat \
-    $(LOCAL_PATH)/prebuilt/etc/audio/codec/asound_TEDGE_ce_NDL.dat:system/etc/audio/codec/asound_TEDGE_ce_NDL.dat \
-    $(LOCAL_PATH)/prebuilt/etc/audio/codec/asound_TEDGE_default_NDL.dat:system/etc/audio/codec/asound_TEDGE_default_NDL.dat \
-    $(LOCAL_PATH)/prebuilt/etc/audio/codec/asound_U9700L_ce_ADL.dat:system/etc/audio/codec/asound_U9700L_ce_ADL.dat \
-    $(LOCAL_PATH)/prebuilt/etc/audio/codec/asound_U9700L_default_ADL.dat:system/etc/audio/codec/asound_U9700L_default_ADL.dat \
-    $(LOCAL_PATH)/prebuilt/etc/audio/codec/asound_U9701G_ce_NSL.dat:system/etc/audio/codec/asound_U9701G_ce_NSL.dat \
-    $(LOCAL_PATH)/prebuilt/etc/audio/codec/asound_U9701G_default_NSL.dat:system/etc/audio/codec/asound_U9701G_default_NSL.dat \
-    $(LOCAL_PATH)/prebuilt/etc/audio/codec/asound_U9701L_ce_ASL.dat:system/etc/audio/codec/asound_U9701L_ce_ASL.dat \
-    $(LOCAL_PATH)/prebuilt/etc/audio/codec/asound_U9701L_default_ADL.dat:system/etc/audio/codec/asound_U9701L_default_ADL.dat \
-    $(LOCAL_PATH)/prebuilt/etc/audio/codec/asound_U9701L_default_ASL.dat:system/etc/audio/codec/asound_U9701L_default_ASL.dat \
-    $(LOCAL_PATH)/prebuilt/etc/audio/codec/asound_U9800D_ce_ADL.dat:system/etc/audio/codec/asound_U9800D_ce_ADL.dat \
-    $(LOCAL_PATH)/prebuilt/etc/audio/codec/asound_U9800D_default_ADL.dat:system/etc/audio/codec/asound_U9800D_default_ADL.dat \
-    $(LOCAL_PATH)/prebuilt/etc/audio/codec/asound_U9900_ce_NDL.dat:system/etc/audio/codec/asound_U9900_ce_NDL.dat \
-    $(LOCAL_PATH)/prebuilt/etc/audio/codec/asound_U9900_default_NDL.dat:system/etc/audio/codec/asound_U9900_default_NDL.dat \
-    $(LOCAL_PATH)/prebuilt/etc/audio/codec/asound_U9900L_ce_ADL.dat:system/etc/audio/codec/asound_U9900L_ce_ADL.dat \
-    $(LOCAL_PATH)/prebuilt/etc/audio/codec/asound_U9900L_default_ADL.dat:system/etc/audio/codec/asound_U9900L_default_ADL.dat \
-    $(LOCAL_PATH)/prebuilt/etc/audio/codec/asound_UEDGE_ce_NDL.dat:system/etc/audio/codec/asound_UEDGE_ce_NDL.dat \
-    $(LOCAL_PATH)/prebuilt/etc/audio/codec/asound_UEDGE_default_NDL.dat:system/etc/audio/codec/asound_UEDGE_default_NDL.dat \
     $(LOCAL_PATH)/prebuilt/etc/audio/fir_filter/fir_coef_capture.txt:system/etc/audio/fir_filter/fir_coef_capture.txt \
     $(LOCAL_PATH)/prebuilt/etc/audio/fir_filter/fir_coef_capture_C9800D_default.txt:system/etc/audio/fir_filter/fir_coef_capture_C9800D_default.txt \
     $(LOCAL_PATH)/prebuilt/etc/audio/fir_filter/fir_coef_capture_CEDGE_default.txt:system/etc/audio/fir_filter/fir_coef_capture_CEDGE_default.txt \
@@ -377,6 +346,8 @@ PRODUCT_COPY_FILES += \
     $(LOCAL_PATH)/prebuilt/etc/camera/davinci/sonyimx135_liteon/cm_sunset.dat:system/etc/camera/davinci/sonyimx135_liteon/cm_sunset.dat \
     $(LOCAL_PATH)/prebuilt/etc/camera/davinci/sonyimx135_liteon/imgproc.xml:system/etc/camera/davinci/sonyimx135_liteon/imgproc.xml \
     $(LOCAL_PATH)/prebuilt/etc/camera/davinci/sonyimx135_liteon/multiframe.xml:system/etc/camera/davinci/sonyimx135_liteon/multiframe.xml \
+    $(LOCAL_PATH)/prebuilt/etc/camera/filter/filter.xml:system/etc/camera/filter/filter.xml \
+    $(LOCAL_PATH)/prebuilt/etc/camera/filter/mixIm.dat:system/etc/camera/filter/mixIm.dat \
     $(LOCAL_PATH)/prebuilt/etc/camera/lowlight/lowlightcfg.xml:system/etc/camera/lowlight/lowlightcfg.xml \
     $(LOCAL_PATH)/prebuilt/etc/camera/meitu/chengguang.mtdata:system/etc/camera/meitu/chengguang.mtdata \
     $(LOCAL_PATH)/prebuilt/etc/camera/meitu/dianying.mtdata:system/etc/camera/meitu/dianying.mtdata \
@@ -439,6 +410,7 @@ PRODUCT_COPY_FILES += \
     $(LOCAL_PATH)/prebuilt/etc/firmware/ti-connectivity/wl18xx-conf/wl18xx-conf-T9900.bin:system/etc/firmware/ti-connectivity/wl18xx-conf/wl18xx-conf-T9900.bin \
     $(LOCAL_PATH)/prebuilt/etc/firmware/ti-connectivity/wl18xx-conf/wl18xx-conf-TEDGE.bin:system/etc/firmware/ti-connectivity/wl18xx-conf/wl18xx-conf-TEDGE.bin \
     $(LOCAL_PATH)/prebuilt/etc/firmware/ti-connectivity/wl18xx-conf/wl18xx-conf-U9700LVA.bin:system/etc/firmware/ti-connectivity/wl18xx-conf/wl18xx-conf-U9700LVA.bin \
+    $(LOCAL_PATH)/prebuilt/etc/firmware/ti-connectivity/wl18xx-conf/wl18xx-conf-U9701G.bin:system/etc/firmware/ti-connectivity/wl18xx-conf/wl18xx-conf-U9701G.bin \
     $(LOCAL_PATH)/prebuilt/etc/firmware/ti-connectivity/wl18xx-conf/wl18xx-conf-U9701L_VA.bin:system/etc/firmware/ti-connectivity/wl18xx-conf/wl18xx-conf-U9701L_VA.bin \
     $(LOCAL_PATH)/prebuilt/etc/firmware/ti-connectivity/wl18xx-conf/wl18xx-conf-U9800DNV1.bin:system/etc/firmware/ti-connectivity/wl18xx-conf/wl18xx-conf-U9800DNV1.bin \
     $(LOCAL_PATH)/prebuilt/etc/firmware/ti-connectivity/wl18xx-conf/wl18xx-conf-U9900.bin:system/etc/firmware/ti-connectivity/wl18xx-conf/wl18xx-conf-U9900.bin \
@@ -451,7 +423,11 @@ PRODUCT_COPY_FILES += \
     $(LOCAL_PATH)/prebuilt/etc/firmware/fm_rx_ch8_1893.3.bts:system/etc/firmware/fm_rx_ch8_1893.3.bts \
     $(LOCAL_PATH)/prebuilt/etc/firmware/TIInit_12.8.32.bts:system/etc/firmware/TIInit_12.8.32.bts
 
-# This device have enough room for precise davick
+# Wifi
+PRODUCT_COPY_FILES += \
+    $(LOCAL_PATH)/prebuilt/etc/wifi/p2p_supplicant.conf:/system/etc/wifi/p2p_supplicant.conf
+
+# This device have enough room for precise dalvik
 PRODUCT_TAGS += dalvik.gc.type-precise
 
 # Device uses ultra-high-density artwork where available
@@ -459,11 +435,6 @@ PRODUCT_AAPT_CONFIG := hdpi xhdpi xxhdpi
 PRODUCT_AAPT_PREF_CONFIG := xhdpi
 
 PRODUCT_LOCALES += en_US
-
-# Prime spacific overrides
-PRODUCT_PROPERTY_OVERRIDES += \
-    ro.product.manufacturer=HUAWEI \
-    ro.product.model=MT1-U06
 
 # Audio
 PRODUCT_PACKAGES += \
@@ -480,10 +451,6 @@ PRODUCT_PACKAGES += \
     audioloop \
     codec
 
-# Wifi
-PRODUCT_COPY_FILES += \
-    $(LOCAL_PATH)/prebuilt/etc/wifi/p2p_supplicant.conf:/system/etc/wifi/p2p_supplicant.conf
-
 PRODUCT_PACKAGES += \
     wpa_supplicant.conf \
     hostapd.conf
@@ -494,7 +461,7 @@ PRODUCT_PACKAGES += \
     librs_jni \
     libsrec_jni \
     com.android.future.usb.accessory \
-    make_ext4fs 
+    make_ext4fs
 
 # Live Wallpapers
 PRODUCT_PACKAGES += \
@@ -503,16 +470,11 @@ PRODUCT_PACKAGES += \
     VisualizationWallpapers
 
 PRODUCT_PACKAGES += \
-    Torch \
-    SOP
+    Torch
 
 PRODUCT_PACKAGES += \
     libc2dcolorconvert \
     libdashplayer
-
-# Enable switch storage
-PRODUCT_COPY_FILES += \
-    $(LOCAL_PATH)/prebuilt/etc/init.d/preparesd:/system/etc/init.d/preparesd
 
 # Bluetooth
 PRODUCT_PACKAGES += \
@@ -527,20 +489,15 @@ PRODUCT_PACKAGES += \
 # General
 PRODUCT_PROPERTY_OVERRIDES += \
     ro.build.selinux=0
-    
+
 PRODUCT_PROPERTY_OVERRIDES += \
     media.stagefright.enable-player=true \
     media.stagefright.enable-meta=true \
     media.stagefright.enable-scan=true \
     media.stagefright.enable-http=true \
     media.stagefright.enable-rtsp=true \
-    media.stagefright.enable-record=true \
-    net.rmnet0.dns1=8.8.8.8 \
-    net.rmnet0.dns2=8.8.4.4 \
-    net.dns1=8.8.8.8 \
-    net.dns2=8.8.4.4
+    media.stagefright.enable-record=true
 
-# OpenGL ES
 PRODUCT_PROPERTY_OVERRIDES += \
     wifi.interface=wlan0 \
     ap.interface=wlan1 \
@@ -580,6 +537,40 @@ PRODUCT_PROPERTY_OVERRIDES += \
     af.resampler.quality=4 \
     ro.config.widevine_level3=true \
     drm.service.enabled=true
+
+# Dexopt settings
+PRODUCT_PROPERTY_OVERRIDES += \
+    dalvik.vm.dexopt-data-only=1 \
+    dalvik.vm.dexopt-flags=m=y,u=n,v=n,o=v \
+
+# Disable sending usage data
+PRODUCT_PROPERTY_OVERRIDES += \
+    ro.config.nocheckin=1
+
+# Enable debugging
+PRODUCT_PROPERTY_OVERRIDES += \
+    ro.debuggable=1 \
+        persist.service.adb.enable=1
+
+
+# Try to get "BangL version" from global var
+ifeq ($(BANGL_VERSION),)
+    BANGL_VERSION := Unknown
+endif
+ADDITIONAL_BUILD_PROPERTIES += ro.bangl.version=$(BANGL_VERSION)
+
+# Force MTP/ADB to be availible on bootup, if test build
+ifeq ($(BANGL_TESTBUILD),1)
+    PRODUCT_PROPERTY_OVERRIDES += \
+        ro.adb.secure=0 \
+        ro.secure=0 \
+        persist.sys.usb.config=mtp,adb
+else
+    PRODUCT_PROPERTY_OVERRIDES += \
+        ro.adb.secure=1 \
+        ro.secure=1 \
+        persist.sys.usb.config=mtp
+endif
 
 $(call inherit-product, build/target/product/full.mk)
 
