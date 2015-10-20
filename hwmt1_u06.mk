@@ -486,10 +486,6 @@ PRODUCT_PACKAGES += \
     uim-sysfs \
     libbt-vendor
 
-# General
-PRODUCT_PROPERTY_OVERRIDES += \
-    ro.build.selinux=0
-
 PRODUCT_PROPERTY_OVERRIDES += \
     media.stagefright.enable-player=true \
     media.stagefright.enable-meta=true \
@@ -547,29 +543,27 @@ PRODUCT_PROPERTY_OVERRIDES += \
 PRODUCT_PROPERTY_OVERRIDES += \
     ro.config.nocheckin=1
 
-# Enable debugging
-PRODUCT_PROPERTY_OVERRIDES += \
-    ro.debuggable=1 \
-        persist.service.adb.enable=1
-
-
 # Try to get "BangL version" from global var
 ifeq ($(BANGL_VERSION),)
     BANGL_VERSION := Unknown
 endif
 ADDITIONAL_BUILD_PROPERTIES += ro.bangl.version=$(BANGL_VERSION)
 
-# Force MTP/ADB to be availible on bootup, if test build
+# Enable debugging and force MTP/ADB to be availible on bootup, if test build
 ifeq ($(BANGL_TESTBUILD),1)
     PRODUCT_PROPERTY_OVERRIDES += \
         ro.adb.secure=0 \
         ro.secure=0 \
-        persist.sys.usb.config=mtp,adb
+        persist.sys.usb.config=mtp,adb \
+        ro.debuggable=1 \
+        persist.service.adb.enable=1
 else
     PRODUCT_PROPERTY_OVERRIDES += \
         ro.adb.secure=1 \
         ro.secure=1 \
-        persist.sys.usb.config=mtp
+        persist.sys.usb.config=mtp \
+        ro.debuggable=0 \
+        persist.service.adb.enable=0
 endif
 
 $(call inherit-product, build/target/product/full.mk)
