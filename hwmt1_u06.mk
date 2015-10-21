@@ -556,14 +556,11 @@ ifeq ($(BANGL_TESTBUILD),1)
         ro.secure=0 \
         persist.sys.usb.config=mtp,adb \
         ro.debuggable=1 \
-        persist.service.adb.enable=1
+        persist.service.adb.enable=1 \
+        persist.sys.root_access=3
 else
     PRODUCT_PROPERTY_OVERRIDES += \
-        ro.adb.secure=1 \
-        ro.secure=1 \
-        persist.sys.usb.config=mtp \
-        ro.debuggable=0 \
-        persist.service.adb.enable=0
+        persist.sys.usb.config=mtp
 endif
 
 $(call inherit-product, build/target/product/full.mk)

@@ -83,12 +83,21 @@ BOARD_HAL_STATIC_LIBRARIES += libhealthd.k3v2oem1
 
 ADDITIONAL_DEFAULT_PROPERTIES += \
     ro.secure=0 \
-    ro.allow.mock.location=1 \
     persist.sys.usb.config=mass_storage,adb \
-    ro.adb.secure=0 \
+    persist.service.adb.enable=1 \
+    ro.allow.mock.location=1 \
     persist.rilrecovery.qsc6085.en=true \
-    ro.confg.hw_bootversion=MT1-U06V100R001CHNC00B331_BOOT \
+    ro.config.hw_bootversion=MT1-U06V100R001CHNC00B331_BOOT \
     ro.debuggable=1
+
+ifeq ($(BANGL_TESTBUILD),1)
+    ADDITIONAL_DEFAULT_PROPERTIES += \
+        ro.adb.secure=0 \
+        persist.sys.root_access=3
+else
+    ADDITIONAL_DEFAULT_PROPERTIES += \
+        ro.adb.secure=1
+endif
 
 # Graphics
 BOARD_EGL_CFG := device/huawei/hwmt1_u06/prebuilt/lib/egl/egl.cfg
