@@ -1,3 +1,5 @@
+LOCAL_PATH := device/huawei/hwmt1_u06
+
 BOARD_VENDOR := Huawei
 
 USE_CAMERA_STUB := false
@@ -38,45 +40,43 @@ BOARD_USE_K3V2OEM1 := true
 # Wifi
 USES_TI_MAC80211 := true
 ifdef USES_TI_MAC80211
-WPA_SUPPLICANT_VERSION           := VER_0_8_X
-BOARD_WPA_SUPPLICANT_DRIVER      := NL80211
-BOARD_WPA_SUPPLICANT_PRIVATE_LIB := lib_driver_cmd_wl12xx
-BOARD_HOSTAPD_DRIVER             := NL80211
-BOARD_HOSTAPD_PRIVATE_LIB        := lib_driver_cmd_wl12xx
-PRODUCT_WIRELESS_TOOLS           := true
-BOARD_WLAN_DEVICE                := wl12xx_mac80211
-BOARD_SOFTAP_DEVICE              := wl12xx_mac80211
-WIFI_DRIVER_MODULE_PATH          := "/system/lib/modules/wlcore_sdio.ko"
-WIFI_DRIVER_MODULE_NAME          := "wlcore_sdio"
-WIFI_FIRMWARE_LOADER             := ""
-BOARD_WIFI_SKIP_CAPABILITIES     := true
-COMMON_GLOBAL_CFLAGS += -DUSES_TI_MAC80211
+    WPA_SUPPLICANT_VERSION           := VER_0_8_X
+    BOARD_WPA_SUPPLICANT_DRIVER      := NL80211
+    BOARD_WPA_SUPPLICANT_PRIVATE_LIB := lib_driver_cmd_wl12xx
+    BOARD_HOSTAPD_DRIVER             := NL80211
+    BOARD_HOSTAPD_PRIVATE_LIB        := lib_driver_cmd_wl12xx
+    PRODUCT_WIRELESS_TOOLS           := true
+    BOARD_WLAN_DEVICE                := wl12xx_mac80211
+    BOARD_SOFTAP_DEVICE              := wl12xx_mac80211
+    WIFI_DRIVER_MODULE_PATH          := "/system/lib/modules/wlcore_sdio.ko"
+    WIFI_DRIVER_MODULE_NAME          := "wlcore_sdio"
+    WIFI_FIRMWARE_LOADER             := ""
+    BOARD_WIFI_SKIP_CAPABILITIES     := true
+    COMMON_GLOBAL_CFLAGS += -DUSES_TI_MAC80211
 endif
 
 # Bluetooth
 BOARD_HAVE_BLUETOOTH := true
 BOARD_HAVE_BLUETOOTH_TI := true
-BOARD_BLUETOOTH_BDROID_BUILDCFG_INCLUDE_DIR := device/huawei/hwmt1_u06/bluetooth
+BOARD_BLUETOOTH_BDROID_BUILDCFG_INCLUDE_DIR := $(LOCAL_PATH)/bluetooth
 
-TARGET_PREBUILT_KERNEL := device/huawei/hwmt1_u06/kernel
+TARGET_PREBUILT_KERNEL := $(LOCAL_PATH)/kernel
+
 #TARGET_KERNEL_SOURCE := kernel/huawei/hwmt1_u06
 #TARGET_KERNEL_CONFIG := hisi_k3v2oem1_defconfig
-
 #WLAN_MODULES:
-
-#	cd hardware/ti/wlan/mac80211/compat_wl18xx && pwd && git reset --hard && git clean -fd
-#	make clean -C hardware/ti/wlan/mac80211/compat_wl18xx
-#	make -j8 -C hardware/ti/wlan/mac80211/compat_wl18xx KERNEL_DIR=$(KERNEL_OUT) KLIB=$(KERNEL_OUT) KLIB_BUILD=$(KERNEL_OUT) ARCH=arm CROSS_COMPILE="arm-linux-androideabi-"
-#	mv hardware/ti/wlan/mac80211/compat_wl18xx/compat/compat.ko $(KERNEL_MODULES_OUT)
-#	mv hardware/ti/wlan/mac80211/compat_wl18xx/compat/sch_codel.ko $(KERNEL_MODULES_OUT)
-#	mv hardware/ti/wlan/mac80211/compat_wl18xx/compat/sch_fq_codel.ko $(KERNEL_MODULES_OUT)
-#	mv hardware/ti/wlan/mac80211/compat_wl18xx/net/mac80211/mac80211.ko $(KERNEL_MODULES_OUT)
-#	mv hardware/ti/wlan/mac80211/compat_wl18xx/net/wireless/cfg80211.ko $(KERNEL_MODULES_OUT)
-#	mv hardware/ti/wlan/mac80211/compat_wl18xx/drivers/net/wireless/ti/wl18xx/wl18xx.ko $(KERNEL_MODULES_OUT)
-#	mv hardware/ti/wlan/mac80211/compat_wl18xx/drivers/net/wireless/ti/wlcore/wlcore.ko $(KERNEL_MODULES_OUT)
-#	mv hardware/ti/wlan/mac80211/compat_wl18xx/drivers/net/wireless/ti/wlcore/wlcore_spi.ko $(KERNEL_MODULES_OUT)
-#	mv hardware/ti/wlan/mac80211/compat_wl18xx/drivers/net/wireless/ti/wlcore/wlcore_sdio.ko $(KERNEL_MODULES_OUT)
-#	
+#    cd hardware/ti/wlan/mac80211/compat_wl18xx && pwd && git reset --hard && git clean -fd
+#    make clean -C hardware/ti/wlan/mac80211/compat_wl18xx
+#    make -j4 -C hardware/ti/wlan/mac80211/compat_wl18xx KERNEL_DIR=$(KERNEL_OUT) KLIB=$(KERNEL_OUT) KLIB_BUILD=$(KERNEL_OUT) ARCH=arm CROSS_COMPILE="arm-linux-androideabi-"
+#    mv hardware/ti/wlan/mac80211/compat_wl18xx/compat/compat.ko $(KERNEL_MODULES_OUT)
+#    mv hardware/ti/wlan/mac80211/compat_wl18xx/compat/sch_codel.ko $(KERNEL_MODULES_OUT)
+#    mv hardware/ti/wlan/mac80211/compat_wl18xx/compat/sch_fq_codel.ko $(KERNEL_MODULES_OUT)
+#    mv hardware/ti/wlan/mac80211/compat_wl18xx/net/mac80211/mac80211.ko $(KERNEL_MODULES_OUT)
+#    mv hardware/ti/wlan/mac80211/compat_wl18xx/net/wireless/cfg80211.ko $(KERNEL_MODULES_OUT)
+#    mv hardware/ti/wlan/mac80211/compat_wl18xx/drivers/net/wireless/ti/wl18xx/wl18xx.ko $(KERNEL_MODULES_OUT)
+#    mv hardware/ti/wlan/mac80211/compat_wl18xx/drivers/net/wireless/ti/wlcore/wlcore.ko $(KERNEL_MODULES_OUT)
+#    mv hardware/ti/wlan/mac80211/compat_wl18xx/drivers/net/wireless/ti/wlcore/wlcore_spi.ko $(KERNEL_MODULES_OUT)
+#    mv hardware/ti/wlan/mac80211/compat_wl18xx/drivers/net/wireless/ti/wlcore/wlcore_sdio.ko $(KERNEL_MODULES_OUT)
 #TARGET_KERNEL_MODULES := WLAN_MODULES
 
 BOARD_HAL_STATIC_LIBRARIES += libhealthd.k3v2oem1
@@ -100,18 +100,18 @@ else
 endif
 
 # Graphics
-BOARD_EGL_CFG := device/huawei/hwmt1_u06/prebuilt/lib/egl/egl.cfg
+BOARD_EGL_CFG := $(LOCAL_PATH)/prebuilt/lib/egl/egl.cfg
 USE_OPENGL_RENDERER := true
 COMMON_GLOBAL_CFLAGS += -DFORCE_SCREENSHOT_CPU_PATH
 
 # Hardware
-BOARD_HARDWARE_CLASS := device/huawei/hwmt1_u06/cmhw
+BOARD_HARDWARE_CLASS := $(LOCAL_PATH)/cmhw
 
 # Camera
 BOARD_CAMERA_HAVE_ISO := true
 
 # RIL
-BOARD_RIL_CLASS := ../../../device/huawei/hwmt1_u06/ril/
+BOARD_RIL_CLASS := ../../../$(LOCAL_PATH)/ril/
 
 # Misc
 BOARD_NEEDS_CUTILS_LOG := true
@@ -149,14 +149,14 @@ BOARD_HAS_LOCKED_BOOTLOADER := true
 RECOVERY_FSTAB_VERSION := 2
 BOARD_FLASH_BLOCK_SIZE := 131072
 BOARD_HAS_LARGE_FILESYSTEM := true
-BOARD_CUSTOM_RECOVERY_KEYMAPPING := ../../device/huawei/hwmt1_u06/recovery/recovery_keys.c
-TARGET_RECOVERY_FSTAB := device/huawei/hwmt1_u06/recovery/recovery.fstab
+BOARD_CUSTOM_RECOVERY_KEYMAPPING := ../../$(LOCAL_PATH)/recovery/recovery_keys.c
+TARGET_RECOVERY_FSTAB := $(LOCAL_PATH)/recovery/recovery.fstab
 BOARD_USE_CUSTOM_RECOVERY_FONT := \"roboto_15x24.h\"
 
 BOARD_RECOVERY_SWIPE := true
 
-TARGET_PREBUILT_RECOVERY_KERNEL := device/huawei/hwmt1_u06/recovery-kernel
-TARGET_RECOVERY_INITRC := device/huawei/hwmt1_u06/recovery/init.rc
+TARGET_PREBUILT_RECOVERY_KERNEL := $(LOCAL_PATH)/recovery-kernel
+TARGET_RECOVERY_INITRC := $(LOCAL_PATH)/recovery/init.rc
 
 #TWRP
 HAVE_SELINUX := true

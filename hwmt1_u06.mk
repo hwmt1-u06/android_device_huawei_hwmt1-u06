@@ -427,14 +427,14 @@ PRODUCT_COPY_FILES += \
 PRODUCT_COPY_FILES += \
     $(LOCAL_PATH)/prebuilt/etc/wifi/p2p_supplicant.conf:/system/etc/wifi/p2p_supplicant.conf
 
-# This device have enough room for precise dalvik
-PRODUCT_TAGS += dalvik.gc.type-precise
+PRODUCT_LOCALES += en_US
 
 # Device uses ultra-high-density artwork where available
 PRODUCT_AAPT_CONFIG := hdpi xhdpi xxhdpi
 PRODUCT_AAPT_PREF_CONFIG := xhdpi
 
-PRODUCT_LOCALES += en_US
+# This device have enough room for precise dalvik
+PRODUCT_TAGS += dalvik.gc.type-precise
 
 # Audio
 PRODUCT_PACKAGES += \
@@ -534,11 +534,6 @@ PRODUCT_PROPERTY_OVERRIDES += \
     ro.config.widevine_level3=true \
     drm.service.enabled=true
 
-# Dexopt settings
-PRODUCT_PROPERTY_OVERRIDES += \
-    dalvik.vm.dexopt-data-only=1 \
-    dalvik.vm.dexopt-flags=m=y,u=n,v=n,o=v \
-
 # Disable sending usage data
 PRODUCT_PROPERTY_OVERRIDES += \
     ro.config.nocheckin=1
@@ -552,6 +547,7 @@ ADDITIONAL_BUILD_PROPERTIES += ro.bangl.version=$(BANGL_VERSION)
 # Enable debugging and force MTP/ADB to be availible on bootup, if test build
 ifeq ($(BANGL_TESTBUILD),1)
     PRODUCT_PROPERTY_OVERRIDES += \
+        dalvik.vm.dexopt-flags=m=y,u=n,v=n,o=v \
         ro.adb.secure=0 \
         ro.secure=0 \
         persist.sys.usb.config=mtp,adb \
