@@ -1,7 +1,5 @@
 
 # for Sensor HAL
-#/dev/lsm303dlh_acc        0660   system     system
-#/dev/lsm303dlh_mag        0660   system     system
 /dev/akm8975_aot	  0660   system     system
 /dev/akm8975_dev	  0660   system     system
 

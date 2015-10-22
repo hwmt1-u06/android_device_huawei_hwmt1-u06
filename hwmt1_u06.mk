@@ -486,6 +486,11 @@ PRODUCT_PACKAGES += \
     uim-sysfs \
     libbt-vendor
 
+PRODUCT_PACKAGES += \
+    charger \
+    check \
+    leds
+
 PRODUCT_PROPERTY_OVERRIDES += \
     media.stagefright.enable-player=true \
     media.stagefright.enable-meta=true \
@@ -494,10 +499,12 @@ PRODUCT_PROPERTY_OVERRIDES += \
     media.stagefright.enable-rtsp=true \
     media.stagefright.enable-record=true
 
+PRODUCT_PROPERTY_OVERRIDES := \
+    ro.ril.hsxpa=2
+
 PRODUCT_PROPERTY_OVERRIDES += \
     wifi.interface=wlan0 \
     ap.interface=wlan1 \
-    persist.sys.usb.config=mtp,adb \
     ro.opengles.version=131072
 
 PRODUCT_PROPERTY_OVERRIDES += \
@@ -538,25 +545,23 @@ PRODUCT_PROPERTY_OVERRIDES += \
 PRODUCT_PROPERTY_OVERRIDES += \
     ro.config.nocheckin=1
 
+# debugging
+PRODUCT_PROPERTY_OVERRIDES += \
+    ro.debuggable=1 \
+    ro.adb.secure=0 \
+    ro.secure=0 \
+    persist.sys.usb.config=mtp,adb \
+    persist.service.adb.enable=1 \
+    persist.sys.root_access=3
+
 # Try to get "BangL version" from global var
 ifeq ($(BANGL_VERSION),)
-    BANGL_VERSION := Unknown
+BANGL_VERSION := Unknown
 endif
 ADDITIONAL_BUILD_PROPERTIES += ro.bangl.version=$(BANGL_VERSION)
-
-# Enable debugging and force MTP/ADB to be availible on bootup, if test build
 ifeq ($(BANGL_TESTBUILD),1)
-    PRODUCT_PROPERTY_OVERRIDES += \
-        dalvik.vm.dexopt-flags=m=y,u=n,v=n,o=v \
-        ro.adb.secure=0 \
-        ro.secure=0 \
-        persist.sys.usb.config=mtp,adb \
-        ro.debuggable=1 \
-        persist.service.adb.enable=1 \
-        persist.sys.root_access=3
-else
-    PRODUCT_PROPERTY_OVERRIDES += \
-        persist.sys.usb.config=mtp
+PRODUCT_PROPERTY_OVERRIDES += \
+    dalvik.vm.dexopt-flags=m=y,u=n,v=n,o=v
 endif
 
 $(call inherit-product, build/target/product/full.mk)

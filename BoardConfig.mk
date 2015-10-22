@@ -24,15 +24,15 @@ TARGET_CPU_VARIANT := cortex-a9
 TARGET_ARCH_VARIANT_FPU := neon
 
 TARGET_BOOTLOADER_BOARD_NAME := hwmt1_u06
-TARGET_BOARD_PLATFORM := k3v2oem1
+BOARD_VENDOR_PLATFORM := k3v2oem1
 
 # Webkit
 ENABLE_WEBGL := true
 TARGET_FORCE_CPU_UPLOAD := true
 
 ### FM radio
-BOARD_HAVE_FM_RADIO := true
-BOARD_GLOBAL_CFLAGS += -DHAVE_FM_RADIO
+#BOARD_HAVE_FM_RADIO := true
+#BOARD_GLOBAL_CFLAGS += -DHAVE_FM_RADIO
 
 # Local flag
 BOARD_USE_K3V2OEM1 := true
@@ -40,7 +40,7 @@ BOARD_USE_K3V2OEM1 := true
 # Wifi
 USES_TI_MAC80211 := true
 ifdef USES_TI_MAC80211
-    WPA_SUPPLICANT_VERSION           := VER_0_8_X
+    WPA_SUPPLICANT_VERSION           := VER_0_8_X_TI
     BOARD_WPA_SUPPLICANT_DRIVER      := NL80211
     BOARD_WPA_SUPPLICANT_PRIVATE_LIB := lib_driver_cmd_wl12xx
     BOARD_HOSTAPD_DRIVER             := NL80211
@@ -57,6 +57,7 @@ endif
 
 # Bluetooth
 BOARD_HAVE_BLUETOOTH := true
+#BOARD_WPAN_DEVICE := true
 BOARD_HAVE_BLUETOOTH_TI := true
 BOARD_BLUETOOTH_BDROID_BUILDCFG_INCLUDE_DIR := $(LOCAL_PATH)/bluetooth
 
@@ -83,21 +84,12 @@ BOARD_HAL_STATIC_LIBRARIES += libhealthd.k3v2oem1
 
 ADDITIONAL_DEFAULT_PROPERTIES += \
     ro.secure=0 \
-    persist.sys.usb.config=mass_storage,adb \
-    persist.service.adb.enable=1 \
+    ro.debuggable=1 \
     ro.allow.mock.location=1 \
+    persist.sys.usb.config=adb \
+    persist.service.adb.enable=1 \
     persist.rilrecovery.qsc6085.en=true \
-    ro.config.hw_bootversion=MT1-U06V100R001CHNC00B331_BOOT \
-    ro.debuggable=1
-
-ifeq ($(BANGL_TESTBUILD),1)
-    ADDITIONAL_DEFAULT_PROPERTIES += \
-        ro.adb.secure=0 \
-        persist.sys.root_access=3
-else
-    ADDITIONAL_DEFAULT_PROPERTIES += \
-        ro.adb.secure=1
-endif
+    ro.config.hw_bootversion=MT1-U06V100R001CHNC00B331_BOOT
 
 # Graphics
 BOARD_EGL_CFG := $(LOCAL_PATH)/prebuilt/lib/egl/egl.cfg
@@ -118,6 +110,7 @@ BOARD_NEEDS_CUTILS_LOG := true
 BOARD_SCREENRECORD_DEVICE_FORCE_AUDIO_MIC := true
 TARGET_GRALLOC_USES_ASHMEM := true
 BOARD_USES_SECURE_SERVICES := true
+#BOARD_RIL_NO_CELLINFOLIST := true
 TARGET_USES_PMEM := true
 TARGET_USES_ION := false
 
@@ -139,38 +132,40 @@ TARGET_OTA_ASSERT_DEVICE := hwmt1_u06,hwmt1-u06,MT1-U06
 TARGET_USE_CUSTOM_LUN_FILE_PATH := "/sys/devices/virtual/android_usb/android0/f_mass_storage/lun/file"
 BOARD_VOLD_MAX_PARTITIONS := 19
 
-# Recovery
-BOARD_HAS_NO_SELECT_BUTTON := true
-BOARD_TOUCH_RECOVERY := 
-TARGET_USERIMAGES_USE_EXT4 := true
-TARGET_RECOVERY_PIXEL_FORMAT := "RGB_8888"
-BOARD_HAS_SDCARD_INTERNAL := true
+# TWRP
+
+# system
+HAVE_SELINUX := true
 BOARD_HAS_LOCKED_BOOTLOADER := true
-RECOVERY_FSTAB_VERSION := 2
-BOARD_FLASH_BLOCK_SIZE := 131072
-BOARD_HAS_LARGE_FILESYSTEM := true
-BOARD_CUSTOM_RECOVERY_KEYMAPPING := ../../$(LOCAL_PATH)/recovery/recovery_keys.c
-TARGET_RECOVERY_FSTAB := $(LOCAL_PATH)/recovery/recovery.fstab
-BOARD_USE_CUSTOM_RECOVERY_FONT := \"roboto_15x24.h\"
-
-BOARD_RECOVERY_SWIPE := true
-
-TARGET_PREBUILT_RECOVERY_KERNEL := $(LOCAL_PATH)/recovery-kernel
+TARGET_PREBUILT_RECOVERY_KERNEL := $(LOCAL_PATH)/kernel
 TARGET_RECOVERY_INITRC := $(LOCAL_PATH)/recovery/init.rc
 
-#TWRP
-HAVE_SELINUX := true
-
-TW_MAX_BRIGHTNESS := 255
+# display
 DEVICE_RESOLUTION := 720x1280
+TW_MAX_BRIGHTNESS := 255
+TARGET_RECOVERY_PIXEL_FORMAT := "RGB_8888"
 RECOVERY_GRAPHICS_USE_LINELENGTH := true
+BOARD_USE_CUSTOM_RECOVERY_FONT := \"roboto_15x24.h\"
+TW_BRIGHTNESS_PATH := "/sys/devices/platform/k3_fb.1/leds/lcd_backlight0/brightness"
 
-TW_CUSTOM_BATTERY_PATH := "/sys/devices/platform/bq_bci_battery.1/power_supply/Battery"
+# controls
+BOARD_RECOVERY_SWIPE := true
+BOARD_TOUCH_RECOVERY := 
+BOARD_HAS_NO_SELECT_BUTTON := true
+BOARD_CUSTOM_RECOVERY_KEYMAPPING := ../../$(LOCAL_PATH)/recovery/recovery_keys.c
 
+# storage
+BOARD_FLASH_BLOCK_SIZE := 131072
+RECOVERY_FSTAB_VERSION := 2
+TARGET_RECOVERY_FSTAB := $(LOCAL_PATH)/recovery/recovery.fstab
+BOARD_HAS_SDCARD_INTERNAL := true
+BOARD_HAS_LARGE_FILESYSTEM := true
+TARGET_USERIMAGES_USE_EXT4 := true
 RECOVERY_SDCARD_ON_DATA := true
-TW_FLASH_FROM_STORAGE := true
 TW_EXTERNAL_STORAGE_PATH := "/external_sd"
 TW_EXTERNAL_STORAGE_MOUNT_POINT := "external_sd"
-TW_DEFAULT_EXTERNAL_STORAGE := true
+TW_INTERNAL_STORAGE_PATH := "/data/share"
+TW_INTERNAL_STORAGE_MOUNT_POINT := "data"
 
-TW_BRIGHTNESS_PATH := "/sys/devices/platform/k3_fb.1/leds/lcd_backlight0/brightness"
+# battery
+TW_CUSTOM_BATTERY_PATH := "/sys/devices/platform/bq_bci_battery.1/power_supply/Battery"

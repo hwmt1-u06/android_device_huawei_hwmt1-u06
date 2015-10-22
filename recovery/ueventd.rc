@@ -37,7 +37,6 @@
 /dev/mux6                0660   root       root
 /dev/mux7                0660   root       system
 /dev/mux8                0660   media       media
-# for CTS test:events can be read, others can't be read
 /dev/mux9                0660   radio      radio
 /dev/mux10               0660   radio      radio
 /dev/mux11               0660   radio      radio
@@ -66,12 +65,11 @@
 /dev/mux_qsc8            0660   root       root
 /dev/mux_qsc9            0660   root       media
 /dev/mux_qsc10            0660   root       root
+/dev/pn544               0660   nfc        nfc
 
-# logger should be world writable (for logging) but not readable
 /dev/log/*                0662   root       log
 /dev/log/events           0666   root       log
 /dev/log/exception        0660   root       log
-
 /dev/smart/*              0662   system       system
 # the msm hw3d client device node is world writable/readable.
 /dev/msm_hw3dc            0666   root       root
@@ -139,27 +137,14 @@
 /dev/tun                  0660   system     vpn
 
 # CDMA radio interface MUX
-/dev/ts0710mux0           0640   radio      radio
-/dev/ts0710mux2           0640   radio      radio
-/dev/ts0710mux3           0640   radio      radio
-/dev/ts0710mux4           0640   radio      radio
-/dev/ts0710mux5           0640   radio      radio
-/dev/ts0710mux6           0640   radio      radio
-/dev/ts0710mux7           0640   radio      radio
-/dev/ts0710mux8           0640   radio      radio
-/dev/ts0710mux9           0640   radio      radio
-/dev/ts0710mux1           0640   system     system
-/dev/ts0710mux15          0640   system     system
-/dev/ts0710mux16          0660   system     system
+/dev/ts0710mux*           0640   radio      radio
 /dev/ppp                  0660   radio      vpn
 
+/dev/nve0                 0664   root       system
 # sysfs properties
 /sys/devices/virtual/input/input*   enable      0660  root   input
 /sys/devices/virtual/input/input*   poll_delay  0660  root   input
 /sys/devices/virtual/usb_composite/*   enable      0664  root   system
-
-#nfc
-/dev/pn544                0600   nfc        nfc
 
 /sys/devices/system/cpu/cpufreq ondemand/boostfreq   0664    system  system
 /sys/devices/system/cpu/cpufreq ondemand/boostpulse  0664    system  system
