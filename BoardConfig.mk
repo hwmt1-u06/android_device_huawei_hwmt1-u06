@@ -61,15 +61,22 @@ BOARD_HAVE_BLUETOOTH := true
 BOARD_HAVE_BLUETOOTH_TI := true
 BOARD_BLUETOOTH_BDROID_BUILDCFG_INCLUDE_DIR := $(LOCAL_PATH)/bluetooth
 
+# Mate kernel config
+export USE_LCD_CMI_OTM1282B := true
+export USE_NFC_DEVICE := true
+export USE_NFC_DEVICE_U9900 := true
+export USE_MULTITASK_FLOAT := true
+export USE_MATE_CAMERA_SETTINGS := true
 
 TARGET_KERNEL_SOURCE := kernel/huawei/hwmt1_u06
 TARGET_KERNEL_CONFIG := hisi_k3v2oem1_defconfig
+TARGET_KERNEL_CUSTOM_TOOLCHAIN := arm-linux-androideabi-4.6
 #TARGET_PREBUILT_KERNEL := $(LOCAL_PATH)/kernel
 
 KERNEL_EXTERNAL_MODULES:
 	cd hardware/ti/wlan/mac80211/compat_wl18xx && pwd && git reset --hard && git clean -fd
 	make clean -C hardware/ti/wlan/mac80211/compat_wl18xx
-	make -j4 -C hardware/ti/wlan/mac80211/compat_wl18xx KERNEL_DIR=$(KERNEL_OUT) KLIB=$(KERNEL_OUT) KLIB_BUILD=$(KERNEL_OUT) ARCH=arm CROSS_COMPILE="arm-linux-androideabi-"
+	make -j4 -C hardware/ti/wlan/mac80211/compat_wl18xx KERNEL_DIR=$(KERNEL_OUT) KLIB=$(KERNEL_OUT) KLIB_BUILD=$(KERNEL_OUT) ARCH=arm CROSS_COMPILE="arm-linux-androideabi-" EXTRA_CFLAGS=-fno-pic
 	mv hardware/ti/wlan/mac80211/compat_wl18xx/compat/compat.ko $(KERNEL_MODULES_OUT)
 	mv hardware/ti/wlan/mac80211/compat_wl18xx/compat/sch_codel.ko $(KERNEL_MODULES_OUT)
 	mv hardware/ti/wlan/mac80211/compat_wl18xx/compat/sch_fq_codel.ko $(KERNEL_MODULES_OUT)
