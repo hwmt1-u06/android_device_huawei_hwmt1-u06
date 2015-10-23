@@ -69,7 +69,7 @@ export USE_MULTITASK_FLOAT := true
 export USE_MATE_CAMERA_SETTINGS := true
 
 TARGET_KERNEL_SOURCE := kernel/huawei/hwmt1_u06
-TARGET_KERNEL_CONFIG := hisi_k3v2oem1_defconfig
+TARGET_KERNEL_CONFIG := hwmt1_u06_defconfig
 TARGET_KERNEL_CUSTOM_TOOLCHAIN := arm-linux-androideabi-4.6
 #TARGET_PREBUILT_KERNEL := $(LOCAL_PATH)/kernel
 
