@@ -30,10 +30,6 @@ BOARD_VENDOR_PLATFORM := k3v2oem1
 ENABLE_WEBGL := true
 TARGET_FORCE_CPU_UPLOAD := true
 
-### FM radio
-#BOARD_HAVE_FM_RADIO := true
-#BOARD_GLOBAL_CFLAGS += -DHAVE_FM_RADIO
-
 # Local flag
 BOARD_USE_K3V2OEM1 := true
 
@@ -57,7 +53,6 @@ endif
 
 # Bluetooth
 BOARD_HAVE_BLUETOOTH := true
-#BOARD_WPAN_DEVICE := true
 BOARD_HAVE_BLUETOOTH_TI := true
 BOARD_BLUETOOTH_BDROID_BUILDCFG_INCLUDE_DIR := $(LOCAL_PATH)/bluetooth
 
@@ -71,21 +66,21 @@ export USE_MATE_CAMERA_SETTINGS := true
 TARGET_KERNEL_SOURCE := kernel/huawei/hwmt1_u06
 TARGET_KERNEL_CONFIG := hwmt1_u06_defconfig
 TARGET_KERNEL_CUSTOM_TOOLCHAIN := arm-linux-androideabi-4.6
-#TARGET_PREBUILT_KERNEL := $(LOCAL_PATH)/kernel
 
 KERNEL_EXTERNAL_MODULES:
-	cd hardware/ti/wlan/mac80211/compat_wl18xx && pwd && git reset --hard && git clean -fd
-	make clean -C hardware/ti/wlan/mac80211/compat_wl18xx
-	make -j4 -C hardware/ti/wlan/mac80211/compat_wl18xx KERNEL_DIR=$(KERNEL_OUT) KLIB=$(KERNEL_OUT) KLIB_BUILD=$(KERNEL_OUT) ARCH=arm CROSS_COMPILE="arm-linux-androideabi-" EXTRA_CFLAGS=-fno-pic
-	mv hardware/ti/wlan/mac80211/compat_wl18xx/compat/compat.ko $(KERNEL_MODULES_OUT)
-	mv hardware/ti/wlan/mac80211/compat_wl18xx/compat/sch_codel.ko $(KERNEL_MODULES_OUT)
-	mv hardware/ti/wlan/mac80211/compat_wl18xx/compat/sch_fq_codel.ko $(KERNEL_MODULES_OUT)
-	mv hardware/ti/wlan/mac80211/compat_wl18xx/net/mac80211/mac80211.ko $(KERNEL_MODULES_OUT)
-	mv hardware/ti/wlan/mac80211/compat_wl18xx/net/wireless/cfg80211.ko $(KERNEL_MODULES_OUT)
-	mv hardware/ti/wlan/mac80211/compat_wl18xx/drivers/net/wireless/ti/wl18xx/wl18xx.ko $(KERNEL_MODULES_OUT)
-	mv hardware/ti/wlan/mac80211/compat_wl18xx/drivers/net/wireless/ti/wlcore/wlcore.ko $(KERNEL_MODULES_OUT)
-	mv hardware/ti/wlan/mac80211/compat_wl18xx/drivers/net/wireless/ti/wlcore/wlcore_spi.ko $(KERNEL_MODULES_OUT)
-	mv hardware/ti/wlan/mac80211/compat_wl18xx/drivers/net/wireless/ti/wlcore/wlcore_sdio.ko $(KERNEL_MODULES_OUT)
+	cd kernel/huawei/hwmt1_u06/drivers/compat-wireless && pwd && git reset --hard && git clean -fd
+	make clean -C kernel/huawei/hwmt1_u06/drivers/compat-wireless
+	make -j4 -C kernel/huawei/hwmt1_u06/drivers/compat-wireless KERNEL_DIR=$(KERNEL_OUT) KLIB=$(KERNEL_OUT) KLIB_BUILD=$(KERNEL_OUT) ARCH=$(TARGET_ARCH) $(ARM_CROSS_COMPILE) EXTRA_CFLAGS=-fno-pic
+	mv kernel/huawei/hwmt1_u06/drivers/compat-wireless/compat/compat.ko $(KERNEL_MODULES_OUT)
+	mv kernel/huawei/hwmt1_u06/drivers/compat-wireless/compat/sch_codel.ko $(KERNEL_MODULES_OUT)
+	mv kernel/huawei/hwmt1_u06/drivers/compat-wireless/compat/sch_fq_codel.ko $(KERNEL_MODULES_OUT)
+	mv kernel/huawei/hwmt1_u06/drivers/compat-wireless/net/mac80211/mac80211.ko $(KERNEL_MODULES_OUT)
+	mv kernel/huawei/hwmt1_u06/drivers/compat-wireless/net/wireless/cfg80211.ko $(KERNEL_MODULES_OUT)
+	mv kernel/huawei/hwmt1_u06/drivers/compat-wireless/drivers/net/wireless/ti/wl18xx/wl18xx.ko $(KERNEL_MODULES_OUT)
+	mv kernel/huawei/hwmt1_u06/drivers/compat-wireless/drivers/net/wireless/ti/wlcore/wlcore.ko $(KERNEL_MODULES_OUT)
+	mv kernel/huawei/hwmt1_u06/drivers/compat-wireless/drivers/net/wireless/ti/wlcore/wlcore_spi.ko $(KERNEL_MODULES_OUT)
+	mv kernel/huawei/hwmt1_u06/drivers/compat-wireless/drivers/net/wireless/ti/wlcore/wlcore_sdio.ko $(KERNEL_MODULES_OUT)
+	make clean -C kernel/huawei/hwmt1_u06/drivers/compat-wireless
 
 TARGET_KERNEL_MODULES := KERNEL_EXTERNAL_MODULES
 
@@ -119,7 +114,6 @@ BOARD_NEEDS_CUTILS_LOG := true
 BOARD_SCREENRECORD_DEVICE_FORCE_AUDIO_MIC := true
 TARGET_GRALLOC_USES_ASHMEM := true
 BOARD_USES_SECURE_SERVICES := true
-#BOARD_RIL_NO_CELLINFOLIST := true
 TARGET_USES_PMEM := true
 TARGET_USES_ION := false
 
@@ -146,7 +140,6 @@ BOARD_VOLD_MAX_PARTITIONS := 19
 # system
 HAVE_SELINUX := true
 BOARD_HAS_LOCKED_BOOTLOADER := true
-#TARGET_PREBUILT_RECOVERY_KERNEL := $(LOCAL_PATH)/kernel
 TARGET_RECOVERY_INITRC := $(LOCAL_PATH)/recovery/init.rc
 
 # display
