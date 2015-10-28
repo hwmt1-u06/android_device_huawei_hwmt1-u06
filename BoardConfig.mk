@@ -65,7 +65,7 @@ export USE_MATE_CAMERA_SETTINGS := true
 
 TARGET_KERNEL_SOURCE := kernel/huawei/hwmt1_u06
 TARGET_KERNEL_CONFIG := hwmt1_u06_defconfig
-TARGET_KERNEL_CUSTOM_TOOLCHAIN := arm-linux-androideabi-4.6
+TARGET_KERNEL_CUSTOM_TOOLCHAIN := arm-linux-androideabi-4.6/bin/arm-linux-androideabi-
 
 KERNEL_EXTERNAL_MODULES:
 	cd kernel/huawei/hwmt1_u06/drivers/compat-wireless && pwd && git reset --hard && git clean -fd
