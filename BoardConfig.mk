@@ -68,9 +68,8 @@ TARGET_KERNEL_CONFIG := hwmt1_u06_defconfig
 TARGET_KERNEL_CUSTOM_TOOLCHAIN := arm-linux-androideabi-4.6/bin/arm-linux-androideabi-
 
 KERNEL_EXTERNAL_MODULES:
-	cd kernel/huawei/hwmt1_u06/drivers/compat-wireless && pwd && git reset --hard && git clean -fd
-	make clean -C kernel/huawei/hwmt1_u06/drivers/compat-wireless
-	make -j4 -C kernel/huawei/hwmt1_u06/drivers/compat-wireless KERNEL_DIR=$(KERNEL_OUT) KLIB=$(KERNEL_OUT) KLIB_BUILD=$(KERNEL_OUT) ARCH=$(TARGET_ARCH) $(ARM_CROSS_COMPILE) EXTRA_CFLAGS=-fno-pic
+	$(MAKE) clean -C kernel/huawei/hwmt1_u06/drivers/compat-wireless
+	$(MAKE) $(MAKE_FLAGS) -C kernel/huawei/hwmt1_u06/drivers/compat-wireless KERNEL_DIR=$(KERNEL_OUT) KLIB=$(KERNEL_OUT) KLIB_BUILD=$(KERNEL_OUT) ARCH=$(TARGET_ARCH) $(ARM_CROSS_COMPILE) EXTRA_CFLAGS=-fno-pic
 	mv kernel/huawei/hwmt1_u06/drivers/compat-wireless/compat/compat.ko $(KERNEL_MODULES_OUT)
 	mv kernel/huawei/hwmt1_u06/drivers/compat-wireless/compat/sch_codel.ko $(KERNEL_MODULES_OUT)
 	mv kernel/huawei/hwmt1_u06/drivers/compat-wireless/compat/sch_fq_codel.ko $(KERNEL_MODULES_OUT)
@@ -80,7 +79,7 @@ KERNEL_EXTERNAL_MODULES:
 	mv kernel/huawei/hwmt1_u06/drivers/compat-wireless/drivers/net/wireless/ti/wlcore/wlcore.ko $(KERNEL_MODULES_OUT)
 	mv kernel/huawei/hwmt1_u06/drivers/compat-wireless/drivers/net/wireless/ti/wlcore/wlcore_spi.ko $(KERNEL_MODULES_OUT)
 	mv kernel/huawei/hwmt1_u06/drivers/compat-wireless/drivers/net/wireless/ti/wlcore/wlcore_sdio.ko $(KERNEL_MODULES_OUT)
-	make clean -C kernel/huawei/hwmt1_u06/drivers/compat-wireless
+	$(MAKE) clean -C kernel/huawei/hwmt1_u06/drivers/compat-wireless
 
 TARGET_KERNEL_MODULES := KERNEL_EXTERNAL_MODULES
 
