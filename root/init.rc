@@ -590,6 +590,7 @@ on post-fs-data
 
 # Include extra init file
     import /init.cm.rc
+    import /init.carbon.rc
 
 on boot
 # basic network init
