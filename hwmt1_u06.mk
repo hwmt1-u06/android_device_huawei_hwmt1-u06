@@ -499,7 +499,7 @@ PRODUCT_PROPERTY_OVERRIDES += \
     media.stagefright.enable-rtsp=true \
     media.stagefright.enable-record=true
 
-PRODUCT_PROPERTY_OVERRIDES := \
+PRODUCT_PROPERTY_OVERRIDES += \
     ro.ril.hsxpa=2
 
 PRODUCT_PROPERTY_OVERRIDES += \
@@ -539,7 +539,9 @@ PRODUCT_PROPERTY_OVERRIDES += \
     ro.config.helix_enable=true \
     af.resampler.quality=4 \
     ro.config.widevine_level3=true \
-    drm.service.enabled=true
+    drm.service.enabled=true \
+    dalvik.vm.dexopt-flags=m=y \
+    dalvik.vm.heapsize=256m
 
 # Disable sending usage data
 PRODUCT_PROPERTY_OVERRIDES += \
@@ -559,10 +561,6 @@ ifeq ($(BANGL_VERSION),)
 BANGL_VERSION := Unknown
 endif
 ADDITIONAL_BUILD_PROPERTIES += ro.bangl.version=$(BANGL_VERSION)
-ifeq ($(BANGL_TESTBUILD),1)
-PRODUCT_PROPERTY_OVERRIDES += \
-    dalvik.vm.dexopt-flags=m=y,u=n,v=n,o=v
-endif
 
 $(call inherit-product, build/target/product/full.mk)
 
