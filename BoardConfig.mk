@@ -54,7 +54,7 @@ endif
 # Bluetooth
 BOARD_HAVE_BLUETOOTH := true
 BOARD_HAVE_BLUETOOTH_TI := true
-BOARD_BLUETOOTH_BDROID_BUILDCFG_INCLUDE_DIR := $(LOCAL_PATH)/bluetooth
+BOARD_BLUETOOTH_BDROID_BUILDCFG_INCLUDE_DIR := $(LOCAL_PATH)/config/bluetooth
 
 # Mate kernel config
 export USE_LCD_CMI_OTM1282B := true
@@ -65,7 +65,7 @@ export USE_MATE_CAMERA_SETTINGS := true
 
 TARGET_KERNEL_SOURCE := kernel/huawei/hwmt1_u06
 TARGET_KERNEL_CONFIG := hwmt1_u06_defconfig
-TARGET_KERNEL_CUSTOM_TOOLCHAIN := arm-linux-androideabi-4.6/bin/arm-linux-androideabi-
+TARGET_KERNEL_CUSTOM_TOOLCHAIN := android-toolchain-eabi-4.6/bin/arm-linux-androideabi-
 
 KERNEL_EXTERNAL_MODULES:
 	$(MAKE) clean -C kernel/huawei/hwmt1_u06/drivers/compat-wireless
@@ -139,7 +139,7 @@ BOARD_VOLD_MAX_PARTITIONS := 19
 # system
 HAVE_SELINUX := true
 BOARD_HAS_LOCKED_BOOTLOADER := true
-TARGET_RECOVERY_INITRC := $(LOCAL_PATH)/recovery/init.rc
+TARGET_RECOVERY_INITRC := $(LOCAL_PATH)/recovery/init.recovery.rc
 
 # display
 DEVICE_RESOLUTION := 720x1280
