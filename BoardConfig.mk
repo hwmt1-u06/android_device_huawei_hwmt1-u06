@@ -2,11 +2,7 @@ LOCAL_PATH := device/huawei/hwmt1_u06
 
 BOARD_VENDOR := Huawei
 
-USE_CAMERA_STUB := false
-
-# Audio
-TARGET_PROVIDES_LIBAUDIO := true
-BOARD_USES_GENERIC_AUDIO := false
+TARGET_OTA_ASSERT_DEVICE := hwmt1_u06,hwmt1-u06,MT1-U06
 
 # inherit from the proprietary version
 include vendor/huawei/hwmt1_u06/BoardConfigVendor.mk
@@ -26,43 +22,49 @@ TARGET_ARCH_VARIANT_FPU := neon
 TARGET_BOOTLOADER_BOARD_NAME := hwmt1_u06
 BOARD_VENDOR_PLATFORM := k3v2oem1
 
-# Webkit
-ENABLE_WEBGL := true
-TARGET_FORCE_CPU_UPLOAD := true
+# Yep, we are shipping a custom init.rc
+TARGET_PROVIDES_INIT_RC := true
 
 # Local flag
 BOARD_USE_K3V2OEM1 := true
 
+# Webkit
+ENABLE_WEBGL := true
+TARGET_FORCE_CPU_UPLOAD := true
+
+# Audio
+TARGET_PROVIDES_LIBAUDIO := true
+BOARD_USES_GENERIC_AUDIO := false
+TARGET_PROVIDES_AUDIO_EFFECTS := false
+
 # Wifi
 USES_TI_MAC80211 := true
 ifdef USES_TI_MAC80211
-    WPA_SUPPLICANT_VERSION           := VER_0_8_X_TI
-    BOARD_WPA_SUPPLICANT_DRIVER      := NL80211
-    BOARD_WPA_SUPPLICANT_PRIVATE_LIB := lib_driver_cmd_wl12xx
-    BOARD_HOSTAPD_DRIVER             := NL80211
-    BOARD_HOSTAPD_PRIVATE_LIB        := lib_driver_cmd_wl12xx
-    PRODUCT_WIRELESS_TOOLS           := true
-    BOARD_WLAN_DEVICE                := wl12xx_mac80211
-    BOARD_SOFTAP_DEVICE              := wl12xx_mac80211
-    WIFI_DRIVER_MODULE_PATH          := "/system/lib/modules/wlcore_sdio.ko"
-    WIFI_DRIVER_MODULE_NAME          := "wlcore_sdio"
-    WIFI_FIRMWARE_LOADER             := ""
-    BOARD_WIFI_SKIP_CAPABILITIES     := true
-    COMMON_GLOBAL_CFLAGS += -DUSES_TI_MAC80211
+WPA_SUPPLICANT_VERSION           := VER_0_8_X_TI
+BOARD_WPA_SUPPLICANT_DRIVER      := NL80211
+BOARD_WPA_SUPPLICANT_PRIVATE_LIB := lib_driver_cmd_wl12xx
+BOARD_HOSTAPD_DRIVER             := NL80211
+BOARD_HOSTAPD_PRIVATE_LIB        := lib_driver_cmd_wl12xx
+PRODUCT_WIRELESS_TOOLS           := true
+BOARD_WLAN_DEVICE                := wl12xx_mac80211
+BOARD_SOFTAP_DEVICE              := wl12xx_mac80211
+WIFI_DRIVER_MODULE_PATH          := "/system/lib/modules/wlcore_sdio.ko"
+WIFI_DRIVER_MODULE_NAME          := "wlcore_sdio"
+WIFI_FIRMWARE_LOADER             := ""
+BOARD_WIFI_SKIP_CAPABILITIES     := true
+COMMON_GLOBAL_CFLAGS += -DUSES_TI_MAC80211
 endif
 
 # Bluetooth
 BOARD_HAVE_BLUETOOTH := true
 BOARD_HAVE_BLUETOOTH_TI := true
+BOARD_WPAN_DEVICE := true
 BOARD_BLUETOOTH_BDROID_BUILDCFG_INCLUDE_DIR := $(LOCAL_PATH)/bluetooth
 
-# Mate kernel config
-export USE_LCD_CMI_OTM1282B := true
-export USE_NFC_DEVICE := true
-export USE_NFC_DEVICE_U9900 := true
-export USE_MULTITASK_FLOAT := true
-export USE_MATE_CAMERA_SETTINGS := true
+# Framework extensions
+TARGET_BOOTCLASSPATH_EXTENSION := :/system/framework/libhwcamera.jar:/system/framework/psx-mod.jar
 
+# Kernel
 TARGET_KERNEL_SOURCE := kernel/huawei/hwmt1_u06
 TARGET_KERNEL_CONFIG := hwmt1_u06_defconfig
 TARGET_KERNEL_CUSTOM_TOOLCHAIN := linaro-4.6/bin/arm-linux-androideabi-
@@ -83,8 +85,21 @@ KERNEL_EXTERNAL_MODULES:
 
 TARGET_KERNEL_MODULES := KERNEL_EXTERNAL_MODULES
 
+BOARD_KERNEL_CMDLINE := vmalloc=384M k3v2_pmem=1 mmcparts=mmcblk0:p1(xloader),p3(nvme),p4(misc),p5(splash),p6(oeminfo),p7(reserved1),p8(reserved2),p9(splash2),p10(recovery2),p11(recovery),p12(boot),p13(modemimage),p14(modemnvm1),p15(modemnvm2),p16(system),p17(cache),p18(cust),p19(userdata);mmcblk1:p1(ext_sdcard)
+BOARD_KERNEL_BASE := 0x00000000
+BOARD_KERNEL_PAGESIZE := 2048
+BOARD_MKBOOTIMG_ARGS += --ramdisk_offset 0x01400000
+
+# fix this up by examining /proc/mtd on a running device
+BOARD_BOOTIMAGE_PARTITION_SIZE := 8388608
+BOARD_RECOVERYIMAGE_PARTITION_SIZE := 16777216
+BOARD_SYSTEMIMAGE_PARTITION_SIZE := 1610612736
+BOARD_USERDATAIMAGE_PARTITION_SIZE := 5255462912
+
+# libhealthd
 BOARD_HAL_STATIC_LIBRARIES += libhealthd.k3v2oem1
 
+# default.prop
 ADDITIONAL_DEFAULT_PROPERTIES += \
     ro.secure=0 \
     ro.debuggable=1 \
@@ -103,6 +118,7 @@ COMMON_GLOBAL_CFLAGS += -DFORCE_SCREENSHOT_CPU_PATH
 BOARD_HARDWARE_CLASS := $(LOCAL_PATH)/cmhw
 
 # Camera
+USE_CAMERA_STUB := false
 BOARD_CAMERA_HAVE_ISO := true
 
 # RIL
@@ -115,20 +131,6 @@ TARGET_GRALLOC_USES_ASHMEM := true
 BOARD_USES_SECURE_SERVICES := true
 TARGET_USES_PMEM := true
 TARGET_USES_ION := false
-
-# Kernel
-BOARD_KERNEL_CMDLINE := vmalloc=384M k3v2_pmem=1 mmcparts=mmcblk0:p1(xloader),p3(nvme),p4(misc),p5(splash),p6(oeminfo),p7(reserved1),p8(reserved2),p9(splash2),p10(recovery2),p11(recovery),p12(boot),p13(modemimage),p14(modemnvm1),p15(modemnvm2),p16(system),p17(cache),p18(cust),p19(userdata);mmcblk1:p1(ext_sdcard)
-BOARD_KERNEL_BASE := 0x00000000
-BOARD_KERNEL_PAGESIZE := 2048
-BOARD_MKBOOTIMG_ARGS += --ramdisk_offset 0x01400000
-
-# fix this up by examining /proc/mtd on a running device
-BOARD_BOOTIMAGE_PARTITION_SIZE := 8388608
-BOARD_RECOVERYIMAGE_PARTITION_SIZE := 16777216
-BOARD_SYSTEMIMAGE_PARTITION_SIZE := 1610612736
-BOARD_USERDATAIMAGE_PARTITION_SIZE := 5255462912
-
-TARGET_OTA_ASSERT_DEVICE := hwmt1_u06,hwmt1-u06,MT1-U06
 
 # USB mass storage
 TARGET_USE_CUSTOM_LUN_FILE_PATH := "/sys/devices/virtual/android_usb/android0/f_mass_storage/lun/file"

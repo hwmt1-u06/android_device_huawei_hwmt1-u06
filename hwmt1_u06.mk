@@ -525,8 +525,6 @@ PRODUCT_PROPERTY_OVERRIDES += \
     ro.config.hw_allow_ums_and_mtp=true \
     ro.camera.sound.forced=1 \
     keyguard.no_require_sim=true \
-    ro.config.hw_dolby=true \
-    ro.dolbywithheadset.enable=1 \
     ro.streaming.video.drs=true \
     media.aac_51_output_enabled=true \
     ro.config.vdf_apn_switch=true \
@@ -540,7 +538,9 @@ PRODUCT_PROPERTY_OVERRIDES += \
     ro.config.widevine_level3=true \
     drm.service.enabled=true \
     dalvik.vm.dexopt-flags=m=y \
-    dalvik.vm.heapsize=256m
+    dalvik.vm.heapsize=256m \
+    ro.config.hw_dolby=true \
+    ro.dolbywithheadset.enable=1
 
 # Disable sending usage data
 PRODUCT_PROPERTY_OVERRIDES += \
