@@ -11,6 +11,8 @@ $(call inherit-product, vendor/carbon/config/common_phone.mk)
 # Inherit device configuration
 $(call inherit-product, device/huawei/hwmt1_u06/hwmt1_u06.mk)
 
+PRODUCT_COPY_FILES += \
+    device/huawei/hwmt1_u06/root/init.rc_carbon:root/init.rc
 
 ## Device identifier. This must come after all inclusions
 PRODUCT_DEVICE := hwmt1_u06
