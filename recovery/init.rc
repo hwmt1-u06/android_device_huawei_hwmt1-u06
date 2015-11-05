@@ -5,8 +5,6 @@ on early-init
     start healthd
 
 on init
-    mount debugfs /sys/kernel/debug /sys/kernel/debug
-
     export PATH /sbin:/system/bin
     export LD_LIBRARY_PATH .:/sbin
     export ANDROID_ROOT /system
@@ -27,9 +25,14 @@ on init
     chown root shell /tmp
     chmod 0775 /tmp
 
+on fs
+    mkdir /dev/usb-ffs 0770 shell shell
+    mkdir /dev/usb-ffs/adb 0770 shell shell
+    mount functionfs adb /dev/usb-ffs/adb uid=2000,gid=2000
+
     write /sys/class/android_usb/android0/enable 0
-    write /sys/class/android_usb/android0/idVendor 18d1
-    write /sys/class/android_usb/android0/idProduct d002
+    write /sys/class/android_usb/android0/idVendor 18D1
+    write /sys/class/android_usb/android0/idProduct D002
     write /sys/class/android_usb/android0/f_ffs/aliases adb
     write /sys/class/android_usb/android0/functions adb
     write /sys/class/android_usb/android0/iManufacturer ${ro.product.manufacturer}
@@ -49,7 +52,6 @@ on init
     write /sys/module/usbcore/parameters/autosuspend 2000
     start leds
 
-on fs
     write /sys/devices/system/cpu/cpufreq/k3hotplug/cpu_lock 2
     chown system system /sys/bus/i2c/devices/1-006b/enable_charger
     chmod 0660 /sys/bus/i2c/devices/1-006b/enable_charger
@@ -60,6 +62,7 @@ on fs
     write /sys/devices/system/cpu/cpu0/cpufreq/scaling_ddr_block_freq 450000
 
 on boot
+
     ifup lo
     hostname localhost
     domainname localdomain
@@ -85,6 +88,33 @@ on property:sys.storage.ums_enabled=0
     write /sys/class/android_usb/android0/functions adb
     write /sys/class/android_usb/android0/enable ${service.adb.root}
 
+on property:sys.usb.config=none
+    stop adbd
+    write /sys/class/android_usb/android0/enable 0
+    write /sys/class/android_usb/android0/bDeviceClass 0
+
+on property:sys.usb.config=mtp,adb
+    stop adbd
+    write /sys/class/android_usb/android0/enable 0
+    write /sys/class/android_usb/android0/idVendor 12d1
+    write /sys/class/android_usb/android0/idProduct 1052
+    write /sys/class/android_usb/android0/iSerial $ro.serialno
+    write /sys/class/android_usb/android0/functions mtp,adb
+    write /sys/class/android_usb/android0/enable 1
+    start adbd
+    setprop sys.usb.state $sys.usb.config
+
+on property:sys.usb.config=adb
+    stop adbd
+    write /sys/class/android_usb/android0/enable 0
+    write /sys/class/android_usb/android0/idVendor 18d1
+    write /sys/class/android_usb/android0/idProduct d002
+    write /sys/class/android_usb/android0/iSerial $ro.serialno
+    write /sys/class/android_usb/android0/functions adb
+    write /sys/class/android_usb/android0/enable ${service.adb.root}
+    start adbd
+    setprop sys.usb.state $sys.usb.config
+
 service leds /sbin/leds
     disabled
 
@@ -107,30 +137,10 @@ service adbd /sbin/adbd recovery
     disabled
     socket adbd stream 660 system system
 
-on property:sys.usb.config=adb
-    stop adbd
-    write /sys/class/android_usb/android0/enable 0
-    write /sys/class/android_usb/android0/idVendor 18d1
-    write /sys/class/android_usb/android0/idProduct d002
-    write /sys/class/android_usb/android0/iSerial $ro.serialno
-    write /sys/class/android_usb/android0/functions adb
-    write /sys/class/android_usb/android0/enable 1
-    start adbd
-    setprop sys.usb.state $sys.usb.config
-
-on property:sys.usb.config=mtp,adb
-    stop adbd
-    write /sys/class/android_usb/android0/enable 0
-    write /sys/class/android_usb/android0/idVendor 12d1
-    write /sys/class/android_usb/android0/idProduct 1052
-    write /sys/class/android_usb/android0/iSerial $ro.serialno
-    write /sys/class/android_usb/android0/functions mtp,adb
-    write /sys/class/android_usb/android0/enable 1
-    start adbd
-    setprop sys.usb.state $sys.usb.config
-
 # Always start adbd on userdebug and eng builds
 on property:ro.debuggable=1
+    #write /sys/class/android_usb/android0/enable 1
+    #start adbd
     setprop service.adb.root 1
 
 # Restart adbd so it can run as root
