@@ -1,5 +1,5 @@
 # The gps config appropriate for this device
-$(call inherit-product, $(SRC_TARGET_DIR)/product/full_base_telephony.mk)
+$(call inherit-product, $(SRC_TARGET_DIR)/product/aosp_base_telephony.mk)
 $(call inherit-product, $(SRC_TARGET_DIR)/product/languages_full.mk)
 $(call inherit-product-if-exists, vendor/huawei/hwmt1_u06/hwmt1_u06-vendor.mk)
 
@@ -10,13 +10,12 @@ DEVICE_PACKAGE_OVERLAYS += $(LOCAL_PATH)/overlay
 ### RAMDISK
 
 PRODUCT_COPY_FILES += \
-    $(LOCAL_PATH)/recovery/fstab.k3v2oem1:root/fstab.k3v2oem1 \
-    $(LOCAL_PATH)/root/init.k3v2oem1.rc:root/init.k3v2oem1.rc \
-    $(LOCAL_PATH)/root/init.k3v2oem1.usb.rc:root/init.k3v2oem1.usb.rc \
-    $(LOCAL_PATH)/root/init.k3v2oem1.cpu.rc:root/init.k3v2oem1.cpu.rc \
-    $(LOCAL_PATH)/root/init.k3v2oem1.glove.rc:root/init.k3v2oem1.glove.rc \
-    $(LOCAL_PATH)/recovery/ueventd.k3v2oem1.rc:root/ueventd.k3v2oem1.rc \
-    $(LOCAL_PATH)/recovery/ueventd.rc:root/ueventd.rc
+    $(LOCAL_PATH)/ramdisk/fstab.k3v2oem1:root/fstab.k3v2oem1 \
+    $(LOCAL_PATH)/ramdisk/init.k3v2oem1.rc:root/init.k3v2oem1.rc \
+    $(LOCAL_PATH)/ramdisk/init.k3v2oem1.usb.rc:root/init.k3v2oem1.usb.rc \
+    $(LOCAL_PATH)/ramdisk/init.k3v2oem1.cpu.rc:root/init.k3v2oem1.cpu.rc \
+    $(LOCAL_PATH)/ramdisk/init.k3v2oem1.glove.rc:root/init.k3v2oem1.glove.rc \
+    $(LOCAL_PATH)/ramdisk/ueventd.k3v2oem1.rc:root/ueventd.k3v2oem1.rc
 
 PRODUCT_COPY_FILES += \
     $(LOCAL_PATH)/recovery/sbin/6085downloader:root/sbin/6085downloader \
@@ -26,14 +25,14 @@ PRODUCT_COPY_FILES += \
 ### RECOVERY
 
 PRODUCT_COPY_FILES += \
+    $(LOCAL_PATH)/ramdisk/ueventd.k3v2oem1.rc:recovery/root/ueventd.k3v2oem1.rc \
+    $(LOCAL_PATH)/ramdisk/fstab.k3v2oem1:recovery/root/fstab.k3v2oem1
+
+PRODUCT_COPY_FILES += \
     $(LOCAL_PATH)/recovery/postrecoveryboot.sh:recovery/root/sbin/postrecoveryboot.sh \
     $(LOCAL_PATH)/recovery/sbin/6085downloader:recovery/root/sbin/6085downloader \
     $(LOCAL_PATH)/recovery/sbin/mtk_update:recovery/root/sbin/mtk_update \
-    $(LOCAL_PATH)/recovery/sbin/updatemodem:recovery/root/sbin/updatemodem
-
-PRODUCT_COPY_FILES += \
-    $(LOCAL_PATH)/recovery/ueventd.k3v2oem1.rc:recovery/root/ueventd.k3v2oem1.rc \
-    $(LOCAL_PATH)/recovery/fstab.k3v2oem1:recovery/root/fstab.k3v2oem1 \
+    $(LOCAL_PATH)/recovery/sbin/updatemodem:recovery/root/sbin/updatemodem \
     $(LOCAL_PATH)/recovery/twrp.fstab:recovery/root/etc/twrp.fstab
 
 PRODUCT_COPY_FILES += \
@@ -560,8 +559,6 @@ ifeq ($(BANGL_VERSION),)
 BANGL_VERSION := Unknown
 endif
 ADDITIONAL_BUILD_PROPERTIES += ro.bangl.version=$(BANGL_VERSION)
-
-$(call inherit-product, build/target/product/full.mk)
 
 # call dalvik heap config
 $(call inherit-product-if-exists, frameworks/native/build/phone-xhdpi-1024-dalvik-heap.mk)

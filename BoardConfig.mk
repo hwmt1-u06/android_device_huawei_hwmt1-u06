@@ -1,11 +1,14 @@
+
+USE_CAMERA_STUB := false
+
+# inherit from the proprietary version
+include vendor/huawei/hwmt1_u06/BoardConfigVendor.mk
+
 LOCAL_PATH := device/huawei/hwmt1_u06
 
 BOARD_VENDOR := Huawei
 
 TARGET_OTA_ASSERT_DEVICE := hwmt1_u06,hwmt1-u06,MT1-U06
-
-# inherit from the proprietary version
-include vendor/huawei/hwmt1_u06/BoardConfigVendor.mk
 
 TARGET_ARCH := arm
 TARGET_NO_BOOTLOADER := true
@@ -85,7 +88,7 @@ KERNEL_EXTERNAL_MODULES:
 
 TARGET_KERNEL_MODULES := KERNEL_EXTERNAL_MODULES
 
-BOARD_KERNEL_CMDLINE := vmalloc=384M k3v2_pmem=1 mmcparts=mmcblk0:p1(xloader),p3(nvme),p4(misc),p5(splash),p6(oeminfo),p7(reserved1),p8(reserved2),p9(splash2),p10(recovery2),p11(recovery),p12(boot),p13(modemimage),p14(modemnvm1),p15(modemnvm2),p16(system),p17(cache),p18(cust),p19(userdata);mmcblk1:p1(ext_sdcard)
+BOARD_KERNEL_CMDLINE := androidboot.hardware=k3v2oem1 vmalloc=384M k3v2_pmem=1 mmcparts=mmcblk0:p1(xloader),p3(nvme),p4(misc),p5(splash),p6(oeminfo),p7(reserved1),p8(reserved2),p9(splash2),p10(recovery2),p11(recovery),p12(boot),p13(modemimage),p14(modemnvm1),p15(modemnvm2),p16(system),p17(cache),p18(cust),p19(userdata);mmcblk1:p1(ext_sdcard)
 BOARD_KERNEL_BASE := 0x00000000
 BOARD_KERNEL_PAGESIZE := 2048
 BOARD_MKBOOTIMG_ARGS += --ramdisk_offset 0x01400000
@@ -118,7 +121,6 @@ COMMON_GLOBAL_CFLAGS += -DFORCE_SCREENSHOT_CPU_PATH
 BOARD_HARDWARE_CLASS := $(LOCAL_PATH)/cmhw
 
 # Camera
-USE_CAMERA_STUB := false
 BOARD_CAMERA_HAVE_ISO := true
 
 # RIL

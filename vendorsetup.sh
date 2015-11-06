@@ -1,4 +1,3 @@
 add_lunch_combo full_hwmt1_u06-userdebug
 add_lunch_combo cm_hwmt1_u06-userdebug
-add_lunch_combo bliss_hwmt1_u06-userdebug
 add_lunch_combo carbon_hwmt1_u06-userdebug
