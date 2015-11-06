@@ -65,7 +65,7 @@ BOARD_WPAN_DEVICE := true
 BOARD_BLUETOOTH_BDROID_BUILDCFG_INCLUDE_DIR := $(LOCAL_PATH)/bluetooth
 
 # Framework extensions
-TARGET_BOOTCLASSPATH_EXTENSION := :/system/framework/libhwcamera.jar:/system/framework/psx-mod.jar
+TARGET_BOOTCLASSPATH_EXTENSION := :/system/framework/hwcustframework.jar:/system/framework/hwframework.jar:/system/framework/com.google.android.media.effects.jar:/system/framework/com.google.widevine.software.drm.jar
 
 # Kernel
 TARGET_KERNEL_SOURCE := kernel/huawei/hwmt1_u06
@@ -73,25 +73,27 @@ TARGET_KERNEL_CONFIG := hwmt1_u06_defconfig
 TARGET_KERNEL_CUSTOM_TOOLCHAIN := linaro-4.6/bin/arm-linux-androideabi-
 
 KERNEL_EXTERNAL_MODULES:
-	$(MAKE) clean -C kernel/huawei/hwmt1_u06/drivers/compat-wireless
-	$(MAKE) $(MAKE_FLAGS) -C kernel/huawei/hwmt1_u06/drivers/compat-wireless KERNEL_DIR=$(KERNEL_OUT) KLIB=$(KERNEL_OUT) KLIB_BUILD=$(KERNEL_OUT) ARCH=$(TARGET_ARCH) $(ARM_CROSS_COMPILE) EXTRA_CFLAGS=-fno-pic
-	mv kernel/huawei/hwmt1_u06/drivers/compat-wireless/compat/compat.ko $(KERNEL_MODULES_OUT)
-	mv kernel/huawei/hwmt1_u06/drivers/compat-wireless/compat/sch_codel.ko $(KERNEL_MODULES_OUT)
-	mv kernel/huawei/hwmt1_u06/drivers/compat-wireless/compat/sch_fq_codel.ko $(KERNEL_MODULES_OUT)
-	mv kernel/huawei/hwmt1_u06/drivers/compat-wireless/net/mac80211/mac80211.ko $(KERNEL_MODULES_OUT)
-	mv kernel/huawei/hwmt1_u06/drivers/compat-wireless/net/wireless/cfg80211.ko $(KERNEL_MODULES_OUT)
-	mv kernel/huawei/hwmt1_u06/drivers/compat-wireless/drivers/net/wireless/ti/wl18xx/wl18xx.ko $(KERNEL_MODULES_OUT)
-	mv kernel/huawei/hwmt1_u06/drivers/compat-wireless/drivers/net/wireless/ti/wlcore/wlcore.ko $(KERNEL_MODULES_OUT)
-	mv kernel/huawei/hwmt1_u06/drivers/compat-wireless/drivers/net/wireless/ti/wlcore/wlcore_spi.ko $(KERNEL_MODULES_OUT)
-	mv kernel/huawei/hwmt1_u06/drivers/compat-wireless/drivers/net/wireless/ti/wlcore/wlcore_sdio.ko $(KERNEL_MODULES_OUT)
-	$(MAKE) clean -C kernel/huawei/hwmt1_u06/drivers/compat-wireless
+	$(MAKE) clean -C $(TARGET_KERNEL_SOURCE)/drivers/compat-wireless
+	$(MAKE) $(MAKE_FLAGS) -C $(TARGET_KERNEL_SOURCE)/drivers/compat-wireless KERNEL_DIR=$(KERNEL_OUT) KLIB=$(KERNEL_OUT) KLIB_BUILD=$(KERNEL_OUT) ARCH=$(TARGET_ARCH) $(ARM_CROSS_COMPILE) EXTRA_CFLAGS=-fno-pic
+	mv $(TARGET_KERNEL_SOURCE)/drivers/compat-wireless/compat/compat.ko $(KERNEL_MODULES_OUT)
+	mv $(TARGET_KERNEL_SOURCE)/drivers/compat-wireless/compat/sch_codel.ko $(KERNEL_MODULES_OUT)
+	mv $(TARGET_KERNEL_SOURCE)/drivers/compat-wireless/compat/sch_fq_codel.ko $(KERNEL_MODULES_OUT)
+	mv $(TARGET_KERNEL_SOURCE)/drivers/compat-wireless/net/mac80211/mac80211.ko $(KERNEL_MODULES_OUT)
+	mv $(TARGET_KERNEL_SOURCE)/drivers/compat-wireless/net/wireless/cfg80211.ko $(KERNEL_MODULES_OUT)
+	mv $(TARGET_KERNEL_SOURCE)/drivers/compat-wireless/drivers/net/wireless/ti/wl18xx/wl18xx.ko $(KERNEL_MODULES_OUT)
+	mv $(TARGET_KERNEL_SOURCE)/drivers/compat-wireless/drivers/net/wireless/ti/wlcore/wlcore.ko $(KERNEL_MODULES_OUT)
+	mv $(TARGET_KERNEL_SOURCE)/drivers/compat-wireless/drivers/net/wireless/ti/wlcore/wlcore_spi.ko $(KERNEL_MODULES_OUT)
+	mv $(TARGET_KERNEL_SOURCE)/drivers/compat-wireless/drivers/net/wireless/ti/wlcore/wlcore_sdio.ko $(KERNEL_MODULES_OUT)
+	$(MAKE) clean -C $(TARGET_KERNEL_SOURCE)/drivers/compat-wireless
 
 TARGET_KERNEL_MODULES := KERNEL_EXTERNAL_MODULES
 
 BOARD_KERNEL_CMDLINE := androidboot.hardware=k3v2oem1 vmalloc=384M k3v2_pmem=1 mmcparts=mmcblk0:p1(xloader),p3(nvme),p4(misc),p5(splash),p6(oeminfo),p7(reserved1),p8(reserved2),p9(splash2),p10(recovery2),p11(recovery),p12(boot),p13(modemimage),p14(modemnvm1),p15(modemnvm2),p16(system),p17(cache),p18(cust),p19(userdata);mmcblk1:p1(ext_sdcard)
+#                       androidboot.hardware=k3v2oem1 is needed to load "ueventd.k3v2oem1.rc" on boot.
+
+BOARD_MKBOOTIMG_ARGS += --ramdisk_offset 0x01400000
 BOARD_KERNEL_BASE := 0x00000000
 BOARD_KERNEL_PAGESIZE := 2048
-BOARD_MKBOOTIMG_ARGS += --ramdisk_offset 0x01400000
 
 # fix this up by examining /proc/mtd on a running device
 BOARD_BOOTIMAGE_PARTITION_SIZE := 8388608
@@ -113,7 +115,7 @@ ADDITIONAL_DEFAULT_PROPERTIES += \
     ro.config.hw_bootversion=MT1-U06V100R001CHNC00B331_BOOT
 
 # Graphics
-BOARD_EGL_CFG := $(LOCAL_PATH)/prebuilt/lib/egl/egl.cfg
+BOARD_EGL_CFG := $(LOCAL_PATH)/egl.cfg
 USE_OPENGL_RENDERER := true
 COMMON_GLOBAL_CFLAGS += -DFORCE_SCREENSHOT_CPU_PATH
 

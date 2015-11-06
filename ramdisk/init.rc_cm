@@ -88,6 +88,8 @@ loglevel 3
     # Directory for putting things only root should see.
     mkdir /mnt/secure 0700 root root
 
+    mount tmpfs tmpfs /mnt/secure mode=0700,uid=0,gid=0
+
     # Directory for staging bindmounts
     mkdir /mnt/secure/staging 0700 root root
     mkdir /mnt/secure/fuse_temp 0700 root root
@@ -115,8 +117,8 @@ loglevel 3
     write /proc/sys/kernel/sched_wakeup_granularity_ns 2000000
     write /proc/sys/kernel/sched_compat_yield 1
     write /proc/sys/kernel/sched_child_runs_first 0
-    chown radio radio /sys/module/usbcore/parameters/autosuspend
     chmod 0664 /sys/module/usbcore/parameters/autosuspend
+    chown radio radio /sys/module/usbcore/parameters/autosuspend
     write /sys/module/usbcore/parameters/autosuspend 2000
     write /proc/sys/kernel/randomize_va_space 2
     write /proc/sys/kernel/kptr_restrict 2
@@ -175,8 +177,8 @@ loglevel 3
 
     # change nve device visit permission
     wait /dev/nve0
-    chown root system /dev/nve0
     chmod 0777 /dev/nve0
+    chown root system /dev/nve0
 
 # Create location for fs_mgr to store abbreviated output from filesystem
 # checker programs.
@@ -195,10 +197,8 @@ on fs
     mount ext4 /dev/block/platform/hi_mci.1/by-name/system /system ro remount
     mount ext4 /dev/block/platform/hi_mci.1/by-name/cache /cache nosuid nodev
     wait /dev/block/platform/hi_mci.1/by-name/userdata
-    mount ext4 /dev/block/platform/hi_mci.1/by-name/userdata /data nosuid nodev noatime wait crypt discard,noauto_da_alloc,data=ordered,user_xattr,discard,barrier=1
-
     wait /dev/block/platform/hi_mci.1/by-name/modemimage
-
+    mount ext4 /dev/block/platform/hi_mci.1/by-name/userdata /data nosuid nodev noatime wait crypt discard,noauto_da_alloc,data=ordered,user_xattr,discard,barrier=1
     mkdir /data/cp-log/ 0764 radio radio
 
     chmod 0660 /data/cp-log/amsg00000000.bin
@@ -438,6 +438,10 @@ on fs
     chmod 0660 /sys/devices/virtual/usbswitch/usbsw/swstate
     chown system system /sys/devices/virtual/usbswitch/usbsw/swstate
 
+    #irda
+    chown system irda /dev/irda_device
+    chmod 0660 /dev/irda_device
+
 on post-fs
     # once everything is setup, no need to modify /
     mount rootfs rootfs / ro remount
@@ -485,6 +489,9 @@ on post-fs-data
 
     # Avoid predictable entropy pool. Carry over entropy from previous boot.
     copy /data/system/entropy.dat /dev/urandom
+
+    chown system system /sys/class/android_usb/f_mass_storage/suitestate
+    chmod 0660 /sys/class/android_usb/f_mass_storage/suitestate
 
     # Create dump dir and collect dumps.
     # Do this before we mount cache so eventually we can use cache for
@@ -600,44 +607,44 @@ on boot
 # set RLIMIT_NICE to allow priorities from 19 to -20
     setrlimit 13 40 40
 
-    chown radio radio /sys/devices/platform/xmm_power/state
     chmod 0660 /sys/devices/platform/xmm_power/state
+    chown radio radio /sys/devices/platform/xmm_power/state
     chown radio radio /sys/devices/platform/hisik3-ehci/ehci_power
 
 #Modem device
 #Balong
 
-    chown radio radio /sys/devices/platform/balong_power/state
     chmod 0660 /sys/devices/platform/balong_power/state
-    chown radio radio /sys/devices/platform/balong_power/gpio
+    chown radio radio /sys/devices/platform/balong_power/state
     chmod 0660 /sys/devices/platform/balong_power/gpio
-    chown radio radio /sys/devices/platform/balong_power/delay
+    chown radio radio /sys/devices/platform/balong_power/gpio
     chmod 0660 /sys/devices/platform/balong_power/delay
+    chown radio radio /sys/devices/platform/balong_power/delay
 
 #QSC6085
 
-    chown radio radio /sys/devices/platform/qsc6085_boot/state
     chmod 0660 /sys/devices/platform/qsc6085_boot/state
-    chown radio radio /sys/devices/platform/qsc6085_boot/gpio
+    chown radio radio /sys/devices/platform/qsc6085_boot/state
     chmod 0660 /sys/devices/platform/qsc6085_boot/gpio
-    chown radio radio /dev/ttyAMA1
+    chown radio radio /sys/devices/platform/qsc6085_boot/gpio
     chmod 0660 /dev/ttyAMA1
+    chown radio radio /dev/ttyAMA1
 
 #MTK6252
 
-    chown radio radio /sys/devices/platform/mtk6252_boot/state
     chmod 0660 /sys/devices/platform/mtk6252_boot/state
-    chown radio radio /sys/devices/platform/mtk6252_boot/gpio
+    chown radio radio /sys/devices/platform/mtk6252_boot/state
     chmod 0660 /sys/devices/platform/mtk6252_boot/gpio
-    chown radio radio /dev/ttyAMA3
+    chown radio radio /sys/devices/platform/mtk6252_boot/gpio
     chmod 0660 /dev/ttyAMA3
+    chown radio radio /dev/ttyAMA3
 
 #SPRD8803G
 
-    chown radio radio /sys/devices/platform/sprd8803g_boot/state
     chmod 0660 /sys/devices/platform/sprd8803g_boot/state
-    chown radio radio /sys/devices/platform/sprd8803g_boot/gpio
+    chown radio radio /sys/devices/platform/sprd8803g_boot/state
     chmod 0660 /sys/devices/platform/sprd8803g_boot/gpio
+    chown radio radio /sys/devices/platform/sprd8803g_boot/gpio
 
 # Memory management.  Basic kernel parameters, and allow the high
 # level system server to be able to adjust the kernel OOM driver
@@ -702,14 +709,17 @@ on boot
 
     chown root input /sys/bus/i2c/devices/2-002c/enable
     chmod 0664 /sys/bus/i2c/devices/2-002c/enable
-
     chown system system /sys/class/timed_output/vibrator/enable
     chmod 0644 /sys/class/timed_output/vibrator/enable
     chown system system /sys/class/leds/keyboard-backlight/brightness
     chmod 0664 /sys/class/leds/keyboard-backlight/brightness
     chown system system /sys/class/leds/lcd-backlight0/brightness
     chmod 0664 /sys/class/leds/lcd-backlight0/brightness
-
+    chown system system /sys/class/leds/lcd-backlight/brightness
+    chown system system /sys/class/leds/button-backlight/brightness
+    chown system system /sys/class/leds/jogball-backlight/brightness
+    chown system system /sys/class/leds/touchkey-led-bright/brightness
+    chmod 0664 /sys/class/leds/touchkey-led-bright/brightness
     chown system system /sys/class/leds/red/brightness
     chown system system /sys/class/leds/green/brightness
     chown system system /sys/class/leds/blue/brightness
@@ -733,6 +743,8 @@ on boot
     chmod 0660 /sys/devices/system/cpu/cpu0/cpufreq/cpuinfo_block_freq
     chown system system /sys/devices/system/cpu/cpu0/cpufreq/scaling_gpu_block_freq
     chmod 0660 /sys/devices/system/cpu/cpu0/cpufreq/scaling_gpu_block_freq
+    chown system system /sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq
+    chmod 0660 /sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq
     chown system system /sys/devices/system/cpu/cpu0/cpufreq/scaling_gpu_max_freq
     chmod 0660 /sys/devices/system/cpu/cpu0/cpufreq/scaling_gpu_max_freq
     chown system /sys/bus/i2c/devices/1-006b/hot_enable_charger
@@ -800,10 +812,10 @@ on boot
 on boot
 # Define TCP buffer sizes for various networks
 #   ReadMin, ReadInitial, ReadMax, WriteMin, WriteInitial, WriteMax,
-    setprop net.tcp.buffersize.default 4096,87380,704512,4096,16384,110208
+    setprop net.tcp.buffersize.default 4096,87380,110208,4096,16384,110208
     setprop net.tcp.buffersize.wifi    524288,1048576,2097152,262144,524288,1048576
     setprop net.tcp.buffersize.lte     524288,1048576,2097152,262144,524288,1048576
-    setprop net.tcp.buffersize.umts    4094,87380,110208,4096,16384,110208
+    setprop net.tcp.buffersize.umts    4094,87380,1220608,4096,16384,1220608
     setprop net.tcp.buffersize.hspa    4094,87380,1220608,4096,16384,1220608
     setprop net.tcp.buffersize.hsupa   4094,87380,1220608,4096,16384,1220608
     setprop net.tcp.buffersize.hsdpa   4094,87380,1220608,4096,16384,1220608
@@ -813,6 +825,8 @@ on boot
     setprop net.tcp.buffersize.gprs    4092,8760,11680,4096,8760,11680
     setprop net.tcp.buffersize.evdo    4094,87380,262144,4096,16384,262144
     setprop net.tcp.buffersize.evdo_b  4096,87380,704512,4096,16384,262144
+    setprop net.tcp.buffersize.tds     4094,87380,262144,4096,16384,262144
+    setprop net.tcp.buffersize.tds_hsdpa    4094,87380,262144,4096,16384,262144
 
     setprop ro.sf.lcd_density 240
     setprop hw.lcd.density 240
@@ -966,6 +980,12 @@ service ril-daemon /system/bin/rild
     user root
     group radio cache inet misc audio sdcard_r sdcard_rw log system
 
+service phs /system/xbin/phoneserver -v 0 -d 2
+    class main
+    user root
+    group radio cache inet misc audio sdcard_rw log
+	disabled
+
 service sprd_download /system/bin/sprd_download
     class main
     user root
@@ -985,7 +1005,7 @@ service ril-daemon1 /system/bin/rild -c 1
     socket rild1 stream 660 root radio
     socket rild-debug1 stream 660 radio system
     user root
-    group radio cache inet misc audio sdcard_rw log
+    group radio cache inet misc audio sdcard_rw log system
 
 service nvm-server /system/bin/nvm_server 
     class main
@@ -993,11 +1013,31 @@ service nvm-server /system/bin/nvm_server
     user root
     group radio
 
+service hdmi-daemon /system/bin/hdmi_daemon
+    class main
+    group system
+    socket hdmi_daemon stream 660 root system graphics
+    disabled
+
 service surfaceflinger /system/bin/surfaceflinger
     class main
     user system
     group graphics drmrpc
     onrestart restart zygote
+
+service ioinfoservice /system/bin/ioinfoservice
+    class main
+
+service jankservice /system/bin/jankservice
+    disabled
+    class main
+
+on property:init.svc.applogcat=running
+    start jankservice
+    setprop persist.config.jankenable  true
+
+on property:init.svc.applogcat=stopped
+    setprop persist.config.jankenable  false
 
 service zygote /system/bin/app_process -Xzygote /system/bin --zygote --start-system-server
     class main
@@ -1010,12 +1050,16 @@ service zygote /system/bin/app_process -Xzygote /system/bin --zygote --start-sys
 service drm /system/bin/drmserver
     class main
     user drm
-    group drm system inet drmrpc sdcard_rw shell sdcard_r
+    group drm system inet drmrpc sdcard_rw shell sdcard_r media_rw
+
+service filebackup /system/bin/filebackup
+    class main
+    socket filebackup stream 0600 radio system
 
 service media /system/bin/mediaserver
     class main
     user media
-    group audio camera inet net_bt net_bt_admin net_bw_acct drmrpc mediadrm shell sdcard_rw sdcard_r
+    group audio camera inet net_bt net_bt_admin net_bw_acct drmrpc mediadrm shell sdcard_rw sdcard_r system
     ioprio rt 4
 
 service bootanim /system/bin/bootanimation
@@ -1027,6 +1071,13 @@ service bootanim /system/bin/bootanimation
 
 on property:rild.readytostart=true
     start ril-daemon1
+
+service bootanim_fast /system/bin/bootanimationex
+    class main
+    user system
+    group graphics audio
+    disabled
+    oneshot
 
 service installd /system/bin/installd
     class main
@@ -1080,9 +1131,19 @@ service mdnsd /system/bin/mdnsd
     disabled
     oneshot
 
+service atcmdserver  /system/bin/atcmdserver
+    class main
+    oneshot
+    disabled
+
+service logserver /system/bin/logserver
+    class main
+    socket logservice stream 0660 system system
+
 service akmd8963  /system/bin/akmd8963
     class main
     oneshot
+
 service yamaha_ori /system/bin/orientationd
     disabled
     oneshot
@@ -1105,6 +1166,11 @@ service hw_modem_service /system/bin/hw_modem_service /dev/ttyGS0 /dev/mux_qsc6
     class main
     user root
     disabled
+
+service k3v2_thermal /system/bin/k3v2_thermal
+    class main
+    user system
+    oneshot
 
 service hwnffserver /system/bin/hwnffserver
     class main

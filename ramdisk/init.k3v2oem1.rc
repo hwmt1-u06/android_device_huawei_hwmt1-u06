@@ -66,10 +66,10 @@ on boot
     chmod 777 /dev/mtd/mtd1
 
     chmod 777 /dev/HisiGE
-    chown system graphics /dev/graphics/fb0
     chmod 660 /dev/graphics/fb0
     chmod 777 /dev/galcore
     chmod 777 /dev/graphics/galcore
+    chown system graphics /dev/graphics/fb0
 
     chown system system /sys/class/leds/lcd_backlight0/brightness
     chmod 664 /sys/class/leds/lcd_backlight0/brightness
@@ -190,20 +190,20 @@ on boot
 
     setprop ro.config.callwait_vibrator true
 
-    chown system camera /dev/video0
     chmod 770 /dev/video0
-    chown system camera /dev/hx170dec
     chmod 770 /dev/hx170dec
-    chown system camera /dev/hx280enc
     chmod 770 /dev/hx280enc
-    chown system camera /dev/memalloc
+    chown system camera /dev/video0
+    chown system camera /dev/hx170dec
+    chown system camera /dev/hx280enc
     chmod 770 /dev/memalloc
-    chown system camera /dev/gralloc_pmem
+    chown system camera /dev/memalloc
     chmod 770 /dev/gralloc_pmem
-    chown system camera /dev/camera_pmem
+    chown system camera /dev/gralloc_pmem
     chmod 770 /dev/camera_pmem
+    chown system camera /dev/camera_pmem
+    chmod 777 /dev/overlay_pmem
     chown system camera  /dev/overlay_pmem
-    chmod 770 /dev/overlay_pmem
 
     chmod 770 /dev/k3v2-seceng
 
@@ -221,7 +221,6 @@ on boot
     chmod 660 /dev/input/event9
     chmod 664 /dev/input/event10
 
-    chown system camera /dev/video19
     chmod 770 /dev/video19
 
     write /proc/sys/net/ipv4/tcp_congestion_control mw3
@@ -229,17 +228,19 @@ on boot
     chmod 770 /dev/audience_es305
     chmod 777 /dev/tpa2028_l
     chmod 777 /dev/tpa2028_r
-    chown media media /dev/tpa6132
     chmod 770 /dev/tpa6132
     chmod 777 /dev/spk_5vboost
     chmod 770 /dev/boardid_dev
-    chown root radio /dev/ttyAMA2
     chmod 770 /dev/ttyAMA2
     chmod 777 /dev/modemctl
-    chown media media /dev/tfa9887
     chmod 660 /dev/tfa9887
-    chown system net_bt_stack /dev/uhid
     chmod 660 /dev/uhid
+    chown media media /dev/audience_es305
+    chown media media /dev/tpa6132
+    chown media media /dev/boardid_dev
+    chown root radio /dev/ttyAMA2
+    chown media media /dev/tfa9887
+    chown system net_bt_stack /dev/uhid
 
     chmod 777 /system/usr/keychars/h2w_headset.kcm.bin
     chmod 777 /system/usr/keychars/k3_keypad.kcm.bin
@@ -248,16 +249,18 @@ on boot
 
     chmod 770 /dev/rtc0
     chmod 777 /dev/drv2605
+    chown system system /dev/drv2605
 
-    chown root radio /dev/ttyAMA3
     chmod 770 /dev/ttyAMA3
     chmod 777 /data/gps/log
-    chown bluetooth bluetooth /dev/hci_tty
+    chown root radio /dev/ttyAMA3
     chmod 660 /dev/hci_tty
-    chown system camera /dev/radio0
-    chmod 660 /dev/radio0
     chmod 666 /dev/binder
     chmod 660 /dev/pri_lcd
+    chmod 660 /dev/radio0
+    chown system camera /dev/radio0
+    chown system camera /dev/video19
+    chown bluetooth bluetooth /dev/hci_tty
     chmod 660 /dev/ttyACM0
     chmod 660 /dev/ttyACM1
     chmod 660 /dev/ttyACM2
@@ -269,43 +272,43 @@ on boot
     mkdir /cache/recovery
     chmod 777 /cache/recovery
 
-    chown system system /dev/cpu_maxprofile
     chmod 770 /dev/cpu_maxprofile
-    chown system system /dev/cpu_minprofile
+    chown system system /dev/cpu_maxprofile
     chmod 770 /dev/cpu_minprofile
-    chown system system /dev/cpu_profile_block
+    chown system system /dev/cpu_minprofile
     chmod 770 /dev/cpu_profile_block
-    chown system system /dev/cpu_profile_safe
+    chown system system /dev/cpu_profile_block
     chmod 770 /dev/cpu_profile_safe
-    chown system system /dev/gpu_maxprofile
+    chown system system /dev/cpu_profile_safe
     chmod 770 /dev/gpu_maxprofile
-    chown system system /dev/gpu_minprofile
+    chown system system /dev/gpu_maxprofile
     chmod 770 /dev/gpu_minprofile
-    chown system system /dev/gpu_profile_block
+    chown system system /dev/gpu_minprofile
     chmod 770 /dev/gpu_profile_block
-    chown system system /dev/gpu_profile_safe
+    chown system system /dev/gpu_profile_block
     chmod 770 /dev/gpu_profile_safe
-    chown system system /dev/ddr_maxprofile
+    chown system system /dev/gpu_profile_safe
     chmod 770 /dev/ddr_maxprofile
-    chown system camera /dev/ddr_minprofile
+    chown system system /dev/ddr_maxprofile
     chmod 770 /dev/ddr_minprofile
-    chown system system /dev/ddr_profile_block
+    chown system camera /dev/ddr_minprofile
     chmod 770 /dev/ddr_profile_block
-    chown system system /dev/ddr_profile_safe
+    chown system system /dev/ddr_profile_block
     chmod 770 /dev/ddr_profile_safe
-    chown system system /dev/cpu_number_lock
+    chown system system /dev/ddr_profile_safe
     chmod 770 /dev/cpu_number_lock
-    chown system system /dev/cpu_number_safe
+    chown system system /dev/cpu_number_lock
     chmod 770 /dev/cpu_number_safe
-    chown system system /dev/cpu_number_max
+    chown system system /dev/cpu_number_safe
     chmod 770 /dev/cpu_number_max
-    chown system system /dev/cpu_number_min
+    chown system system /dev/cpu_number_max
     chmod 770 /dev/cpu_number_min
-    chown system system /dev/ipps_policy
+    chown system system /dev/cpu_number_min
     chmod 770 /dev/ipps_policy
+    chown system system /dev/ipps_policy
 
-    chown bluetooth bluetooth /dev/ttyAMA4
     chmod 770 /dev/ttyAMA4
+    chown bluetooth bluetooth /dev/ttyAMA4
 
     chown bluetooth bluetooth /sys/class/rfkill/rfkill0/type
     chown bluetooth bluetooth /sys/class/rfkill/rfkill0/state
@@ -473,6 +476,11 @@ service dhcpcd_p2p /system/bin/dhcpcd -aABKL
     disabled
     oneshot
 
+service dhcpcd_bnep0 /system/bin/dhcpcd -ABKL
+    class main
+    disabled
+    oneshot
+
 service iprenew_p2p /system/bin/dhcpcd -nBK
     class main
     disabled
@@ -489,6 +497,11 @@ service dhcpcd_bt-pan /system/bin/dhcpcd -ABKL
     oneshot
 
 service dhcpcd_usbeth0 /system/bin/dhcpcd -ABKL
+    class main
+    disabled
+    oneshot
+
+service iprenew_bnep0 /system/bin/dhcpcd -n
     class main
     disabled
     oneshot
@@ -523,6 +536,12 @@ service rillogcat /system/bin/logcat -b radio -v time -r4096 -n 20 -f /data/andr
     group system
     disabled
 
+service chargelogcat /system/bin/chargelogcat -t 2 -p /data/android_logs/
+    class core
+    user root
+    group system
+    disabled
+
 service uim /system/bin/uim-sysfs
     class core
     user root
@@ -544,6 +563,29 @@ service akm8975 /system/bin/akm8975 -m 3
     user system
     disabled
     oneshot
+
+# applogcat is triggered by projectmenu or setprop
+service applogcat /system/bin/logcat -v time -r4096 -n 32 -f /data/android_logs/applogcat-log
+    class late_start
+    disabled
+
+# kmsglogcat is triggered by projectmenu or setprop
+service kmsglogcat /system/bin/kmsgcat -r 4096 -n 32 -f /data/android_logs/kmsgcat-log
+    class late_start
+    disabled
+
+#DTS2011122003374 l00192645 2011-12-26 begin
+service sleeplogcat /system/bin/sleeplogcat -t 10 -p /data/android_logs/
+    class core
+    user root
+    group system
+    disabled
+#DTS2011122003374 l00192645 2011-12-26 end
+
+on property:ro.runmode=factory
+    start applogcat
+    start kmsglogcat
+    start sleeplogcat
 
 # TI-GPS start
 service devproxy /system/bin/devproxy
@@ -590,9 +632,22 @@ on property:sys.proximitysensor.state=0
 
 on property:sys.proximitysensor.state=1
     write /sys/devices/platform/dw-i2c.0/i2c-0/0-0039/ps_enable 1
+#/*<DTS2014010909796 anzhen 00210929 20140109 begin*/
+on property:persist.sys.primarysd=*
+    exec /system/bin/preparesd.sh
+#/* DTS2014010909796 anzhen 00210929 20140109 end>*/
+#/* DTS2013071000598 yangshizheng 00102627 end>*/
 
-on property:persist.sys.vold.switchexternal=1
-    setprop persist.sys.primarysd 1
+#DTS2013081601538 chenchen 00205994 2013/08/16 begin
+service server_agent /system/bin/server_agent
+  class main
+  user root
+  group root
+  disabled
 
-on property:persist.sys.vold.switchexternal=0
-    setprop persist.sys.primarysd 0
+on property:sys.server_agent_onoff=1
+  start server_agent
+
+on property:sys.server_agent_onoff=0
+  stop server_agent
+#DTS2013081601538 chenchen 00205994 2013/08/16 end
