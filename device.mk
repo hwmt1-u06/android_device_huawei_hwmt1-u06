@@ -560,5 +560,10 @@ BANGL_VERSION := Unknown
 endif
 ADDITIONAL_BUILD_PROPERTIES += ro.bangl.version=$(BANGL_VERSION)
 
+# Try to include gapps if said so
+ifeq ($(BANGL_INCLUDE_GAPPS),1)
+$(call inherit-product-if-exists, vendor/google/gapps/device-partial.mk)
+endif
+
 # call dalvik heap config
 $(call inherit-product-if-exists, frameworks/native/build/phone-xhdpi-1024-dalvik-heap.mk)
